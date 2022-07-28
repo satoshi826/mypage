@@ -12,6 +12,8 @@ export default function Sidebar() {
 
   const closeSwipeHandler = useCloseSwipe()
 
+  console.log({isMobile, isOpenSidebar, isSwiping})
+
   const css = useThemeCallback(isMobile
     ? getCssMobile(isOpenSidebar, isSwiping, positionSwiping)
     : getCssPC(isOpenSidebar)
@@ -51,7 +53,7 @@ const getCssPC = (isOpenSidebar) => ({pallete, shape}) => ({
   padding   : '20px 15px',
   background: pallete.background[2],
   minWidth  : shape.sidebar.width,
-  transform : isOpenSidebar && 'translateX(-' + shape.sidebar.width + ')',
+  transform : isOpenSidebar || 'translateX(-230px)',
 })
 
 function rgbaFromHEX(hex, alpha) {
