@@ -6,5 +6,8 @@ export default function shape() {
     topbar: {
       height: '60px'
     },
+    bottombar: {
+      height: '60px'
+    },
   }
 }

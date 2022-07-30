@@ -33,8 +33,10 @@ export default function Frame({children}) {
 const getCssMobile = ({pallete, shape}) => ({
 
   appCss: {
-    background: pallete.background[1],
-    height    : '100%',
+    background   : pallete.background[1],
+    minHeight    : '100vh',
+    display      : 'flex',
+    flexDirection: 'column'
   },
 
   mainCss: {
@@ -45,8 +47,12 @@ const getCssMobile = ({pallete, shape}) => ({
 
   baseContentCss: {
     position : 'absolute',
+    maxWidth : '100%',
     minWidth : '100%',
     minHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
+    maxHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
+    display  : 'flex',
+    flexGrow : '1',
   }
 
 })
@@ -68,11 +74,14 @@ const getCssPC = ({pallete, shape}) => ({
   },
 
   baseContentCss: {
-    background: pallete.background[1],
-    transition: 'all .35s',
-    flexGrow  : '1',
-    minWidth  : 'calc( 100% - ' + shape.sidebar.width + ' )',
-    minHeight : 'calc( 100% - ' + shape.topbar.height + ' )',
+    transition     : 'all .35s',
+    background     : pallete.background[1],
+    width          : 'calc( 100% - ' + shape.sidebar.width + ' )',
+    minHeight      : 'calc( 100% - ' + shape.topbar.height + ' )',
+    maxHeight      : 'calc( 100% - ' + shape.topbar.height + ' )',
+    display        : 'flex',
+    transitionDelay: '300ms',
+
   },
 
   closeContentCss: {

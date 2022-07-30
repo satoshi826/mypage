@@ -25,6 +25,14 @@ export function useIsOpenSidebarValue() {
   return useRecoilValue(isOpenState)
 }
 
+export function useIsSwipingValue() {
+  return useRecoilValue(isSwipingState)
+}
+
+export function usePositionValue() {
+  return useRecoilValue(positionState)
+}
+
 export function useOpenSwipe() {
 
   const [isOpenSidebar, setIsOpenSidebar] = useIsOpenSidebar()
@@ -38,12 +46,12 @@ export function useOpenSwipe() {
     onTouchMoveCapture: (e) => {
       const touchX = e.changedTouches[0].clientX
       setPosition(Math.min(touchX, width))
-      const triggerOpen = (width / 2) - 20 < touchX
+      const triggerOpen = (width / 3) < touchX
       if (!isOpenSidebar && triggerOpen) setIsOpenSidebar(true)
       if (isOpenSidebar && !triggerOpen) setIsOpenSidebar(false)
     },
     onTouchEnd: () => {
-      setPosition(0)
+      setPosition()
       setIsSwiping(false)
     },
   }
@@ -56,7 +64,7 @@ export function useOpenSwipe() {
       const touchX = e.changedTouches[0].clientX
       touchHistory.current.unshift(touchX)
       touchHistory.current.pop()
-      const isEdge = touchHistory.current[4] < 80
+      const isEdge = touchHistory.current[4] < 100
       const isSwiping = touchHistory.current.every((touch, index) => touch > (touchHistory.current?.[index + 1] ?? 0))
       if (isEdge && isSwiping) setIsSwiping(true)
     }
@@ -83,7 +91,7 @@ export function useCloseSwipe() {
       const position = width - (start.current - now.current)
       setPosition(Math.min(position, width))
 
-      const triggerOpen = (width / 2) + 20 < position
+      const triggerOpen = (2 * width / 3) < position
       if (!isOpenSidebar && triggerOpen) setIsOpenSidebar(true)
       if (isOpenSidebar && !triggerOpen) setIsOpenSidebar(false)
 
@@ -95,12 +103,4 @@ export function useCloseSwipe() {
       setIsSwiping(false)
     },
   }
-}
-
-export function useIsSwipingValue() {
-  return useRecoilValue(isSwipingState)
-}
-
-export function useIsPositionValue() {
-  return useRecoilValue(positionState)
 }

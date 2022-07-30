@@ -1,26 +1,34 @@
 import {useIsOpenSidebar, useIsOpenSidebarValue} from '../useSidebar'
-import {useThemeCallback} from '../../theme/useTheme'
+import {useTheme} from '../../theme/useTheme'
 import useIsMobile from '../../hooks/useIsMobile'
 
 export default function MenuButton() {
-  const setIsOpen = useIsOpenSidebar()[1]
+
+  const [isOpen, setIsOpen] = useIsOpenSidebar()
+  const {pallete} = useTheme()
   const isMobile = useIsMobile()
+
   return (
-    <div onClick={() => setIsOpen((v) => !v)} css={IconCss} >
+    <div onClick={() => setIsOpen((v) => !v)} css={getLineCss({pallete, isOpen, isMobile})} >
       {isMobile ? <MenuIconMobile/> : <MenuIconPc/>}
     </div>
   )
 }
 
-const IconCss = {
+const getLineCss = ({pallete, isOpen, isMobile}) => ({
+  transition : 'all .6s',
+  stroke     : (isMobile && isOpen) ? pallete.primary[0] : pallete.text[1],
+  strokeWidth: '2px',
+  '&:hover'  : {
+    stroke: pallete.primary[0],
+  },
   userSelect : 'none',
   paddingLeft: '20px',
-}
+})
 
 const MenuIconMobile = () => {
 
   const isOpen = useIsOpenSidebarValue()
-  const lineCss = useThemeCallback(getLineCss)
 
   const base = [
     'M 20 25 l -20 0',
@@ -43,7 +51,6 @@ const MenuIconMobile = () => {
       key={isOpen ? 'open' : 'closed'}
       width={40}
       height={60}
-      css={lineCss}
     >
       {base.map((_, index) => {
         return (
@@ -66,7 +73,6 @@ const MenuIconMobile = () => {
 const MenuIconPc = () => {
 
   const isOpen = useIsOpenSidebarValue()
-  const lineCss = useThemeCallback(getLineCss)
 
   const base = [
     'M 20 25 l -20 0',
@@ -79,7 +85,7 @@ const MenuIconPc = () => {
   const toClose = [
     'M 20 25 l -15 10',
     'M 40 25 l -15 10',
-    'M 0 35 h 0',
+    'M 5 35 h 0',
     'M 20 45 l -15 -10',
     'M 40 45 l -15 -10',
   ]
@@ -99,7 +105,6 @@ const MenuIconPc = () => {
       id={id}
       width={40}
       height={60}
-      css={lineCss}
     >
       {base.map((_, index) => {
         return (
@@ -131,14 +136,3 @@ const MenuIconPc = () => {
     </svg>
   )
 }
-
-
-const getLineCss = ({pallete}) => ({
-  transition : 'all .5s',
-  stroke     : pallete.text[1],
-  strokeWidth: '2px',
-  '&:hover'  : {
-    stroke: pallete.primary[0],
-  },
-})
-
