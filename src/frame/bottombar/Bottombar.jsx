@@ -1,4 +1,5 @@
 import {useThemeCallback} from '../../theme/useTheme'
+import Typography from '../../component/Typography'
 
 export default function Bottombar() {
 
@@ -6,16 +7,16 @@ export default function Bottombar() {
 
   return (
     <div css={bottombarCss}>
-      {/* <Clock/> */}
+      <Typography>
+        this is bottom
+      </Typography>
     </div>
   )
 }
 
 const getCss = ({pallete, shape}) => ({
-  backgroundColor: pallete.background[1],
-  maxHeight      : shape.bottombar.height,
-  minHeight      : shape.bottombar.height,
-  flexGrow       : 1,
+  backgroundColor: pallete.background[3],
+  height         : shape.topbar.height,
   display        : 'flex',
   alignItems     : 'center',
 })

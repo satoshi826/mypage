@@ -1,6 +1,5 @@
 import Sidebar from './sidebar/Sidebar'
 import Topbar from './topbar/Topbar'
-import Bottombar from './bottombar/Bottombar'
 import {useThemeCallback} from '../theme/useTheme'
 import {useIsOpenSidebar, useOpenSwipe} from './useSidebar'
 import useIsMobile from '../hooks/useIsMobile'
@@ -25,7 +24,6 @@ export default function Frame({children}) {
           {...openSwipeHandler}
         >
           {children}
-          <Bottombar/>
         </div>
       </div>
     </div>
@@ -36,26 +34,25 @@ const getCssMobile = ({pallete, shape}) => ({
 
   appCss: {
     background   : pallete.background[1],
-    height       : '100%',
+    minHeight    : '100vh',
     display      : 'flex',
     flexDirection: 'column'
   },
 
   mainCss: {
-    flexGrow : '1',
-    display  : 'flex',
-    minHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
-    maxHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
+    display : 'flex',
+    flexGrow: '1',
   },
 
 
   baseContentCss: {
-    background   : pallete.text[1],
-    position     : 'absolute',
-    width        : '100%',
-    height       : 'calc( 100% - ' + shape.topbar.height + ' )',
-    display      : 'flex',
-    flexDirection: 'column',
+    position : 'absolute',
+    maxWidth : '100%',
+    minWidth : '100%',
+    minHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
+    maxHeight: 'calc( 100% - ' + shape.topbar.height + ' )',
+    display  : 'flex',
+    flexGrow : '1',
   }
 
 })
@@ -67,24 +64,24 @@ const getCssPC = ({pallete, shape}) => ({
     background   : pallete.background[1],
     height       : '100%',
     display      : 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
 
   mainCss: {
     transition: 'all .35s',
-    flexGrow  : '1',
     display   : 'flex',
-    minHeight : 'calc( 100% - ' + shape.topbar.height + ' )',
-    maxHeight : 'calc( 100% - ' + shape.topbar.height + ' )',
+    flexGrow  : '1',
   },
 
   baseContentCss: {
     transition     : 'all .35s',
     background     : pallete.background[1],
     width          : 'calc( 100% - ' + shape.sidebar.width + ' )',
-    transitionDelay: '300ms',
+    minHeight      : 'calc( 100% - ' + shape.topbar.height + ' )',
+    maxHeight      : 'calc( 100% - ' + shape.topbar.height + ' )',
     display        : 'flex',
-    flexDirection  : 'column',
+    transitionDelay: '300ms',
+
   },
 
   closeContentCss: {

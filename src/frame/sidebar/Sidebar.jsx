@@ -12,9 +12,7 @@ export default function Sidebar() {
   const closeSwipeHandler = useCloseSwipe()
   const {pallete, shape} = useTheme()
 
-  const css = isMobile
-    ? getCssMobile({isOpenSidebar, isSwiping, positionSwiping, pallete, shape})
-    : getCssPC({isOpenSidebar, pallete, shape})
+  const css = getCss({isOpenSidebar, pallete, shape})
 
   const transform = isMobile
     ? getTransformMobile({isOpenSidebar, isSwiping, positionSwiping, pallete, shape})
@@ -31,13 +29,12 @@ export default function Sidebar() {
   )
 }
 
-const getCssMobile = ({isSwiping, pallete, shape}) => ({
+const getCss = ({isSwiping, pallete, shape}) => ({
   transition    : isSwiping || 'all .35s',
   padding       : '10px 15px',
   background    : rgbaFromHEX(pallete.background[2], 0.7),
-  minWidth      : shape.sidebar.width,
-  // minHeight     : '100%',
   backdropFilter: 'blur(6px) saturate(150%)',
+  minWidth      : shape.sidebar.width,
   zIndex        : '10000',
 })
 
@@ -47,18 +44,9 @@ const getTransformMobile = ({isOpenSidebar, isSwiping, positionSwiping, shape}) 
   return'translateX(' + position + ')'
 }
 
-const getCssPC = ({pallete, shape}) => ({
-  transition: 'all .35s',
-  padding   : '10px 15px',
-  background: pallete.background[2],
-  minWidth  : shape.sidebar.width,
-  minHeight : '100%',
-})
-
 const getTransformPc = ({isOpenSidebar, shape}) => {
   return isOpenSidebar || 'translateX(-' + shape.sidebar.width + ')'
 }
-
 
 function rgbaFromHEX(hex, alpha) {
   const r = parseInt(hex[1] + hex[2], 16)
