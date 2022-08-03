@@ -1,7 +1,7 @@
 import Sidebar from './sidebar/Sidebar'
 import Topbar from './topbar/Topbar'
 import Bottombar from './bottombar/Bottombar'
-import {useThemeCallback} from '../theme/useTheme'
+import {useTheme} from '../theme/useTheme'
 import {useIsOpenSidebar, useOpenSwipe} from './useSidebar'
 import useIsMobile from '../hooks/useIsMobile'
 
@@ -9,7 +9,8 @@ export default function Frame({children}) {
 
   const isMobile = useIsMobile()
   const [isOpenSidebar, setIsOpenSidebar] = useIsOpenSidebar()
-  const {appCss, mainCss, baseContentCss, closeContentCss} = useThemeCallback(isMobile ? getCssMobile : getCssPC)
+  const {pallete, shape} = useTheme()
+  const {appCss, mainCss, baseContentCss, closeContentCss} = isMobile ? getCssMobile({pallete, shape}) : getCssPC({pallete, shape})
   const openSwipeHandler = useOpenSwipe()
 
   const closeSidebar = () => isMobile && isOpenSidebar && setIsOpenSidebar(false)
@@ -35,7 +36,7 @@ export default function Frame({children}) {
 const getCssMobile = ({pallete, shape}) => ({
 
   appCss: {
-    background   : pallete.background[1],
+    background   : pallete.background[0],
     height       : '100%',
     display      : 'flex',
     flexDirection: 'column'
@@ -50,7 +51,6 @@ const getCssMobile = ({pallete, shape}) => ({
 
 
   baseContentCss: {
-    background   : pallete.text[1],
     position     : 'absolute',
     width        : '100%',
     height       : 'calc( 100% - ' + shape.topbar.height + ' )',
@@ -64,7 +64,7 @@ const getCssPC = ({pallete, shape}) => ({
 
   appCss: {
     overflowX    : 'hidden',
-    background   : pallete.background[1],
+    background   : pallete.background[0],
     height       : '100%',
     display      : 'flex',
     flexDirection: 'column',
@@ -79,10 +79,10 @@ const getCssPC = ({pallete, shape}) => ({
   },
 
   baseContentCss: {
-    transition     : 'all .35s',
+    transition     : 'all .3s',
     background     : pallete.background[1],
     width          : 'calc( 100% - ' + shape.sidebar.width + ' )',
-    transitionDelay: '300ms',
+    transitionDelay: '.35s',
     display        : 'flex',
     flexDirection  : 'column',
   },

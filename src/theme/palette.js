@@ -3,11 +3,12 @@ export default function pallete() {
     text: {
       0: '#ffffff',
       1: '#dddddd',
+      2: '#aaaaaa',
     },
     background: {
-      0: '#000000',
-      1: '#111111',
-      2: '#202020',
+      0: '#050505',
+      1: '#151515',
+      2: '#252525',
       3: '#404040',
     },
     primary: {

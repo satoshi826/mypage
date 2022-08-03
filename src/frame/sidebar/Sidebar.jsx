@@ -12,7 +12,7 @@ export default function Sidebar() {
   const closeSwipeHandler = useCloseSwipe()
   const {pallete, shape} = useTheme()
 
-  const css = getCss({isOpenSidebar, pallete, shape})
+  const css = getCss({isOpenSidebar, pallete, shape, isSwiping})
 
   const transform = isMobile
     ? getTransformMobile({isOpenSidebar, isSwiping, positionSwiping, pallete, shape})
@@ -30,12 +30,13 @@ export default function Sidebar() {
 }
 
 const getCss = ({isSwiping, pallete, shape}) => ({
-  transition    : isSwiping || 'all .35s',
+  transition    : isSwiping || 'all .3s',
   padding       : '10px 15px',
   background    : rgbaFromHEX(pallete.background[2], 0.7),
   backdropFilter: 'blur(6px) saturate(150%)',
+  borderRight   : '1px solid ' + pallete.background[2],
   minWidth      : shape.sidebar.width,
-  zIndex        : '10000',
+  zIndex        : '100000000',
 })
 
 const getTransformMobile = ({isOpenSidebar, isSwiping, positionSwiping, shape}) => {

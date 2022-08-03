@@ -1,11 +1,11 @@
 import {Link, useLocation} from 'wouter'
-import {useThemeCallback} from '../../theme/useTheme'
+import {useTheme} from '../../theme/useTheme'
 
 export default function Nav({url, name}) {
   const [location] = useLocation()
   const isActive = location === url
-
-  const {baseCss, activeCss, passiveCss} = useThemeCallback(getCss)
+  const {pallete} = useTheme()
+  const {baseCss, activeCss, passiveCss} = getCss({pallete})
 
   return (
     <Link href={url} >
@@ -45,7 +45,6 @@ const getCss = ({pallete}) => ({
       background: pallete.primary[0],
       transition: 'all .25s',
       width     : '100%',
-      height    : '2px'
     },
   },
 

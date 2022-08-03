@@ -64,7 +64,7 @@ export function useOpenSwipe() {
       const touchX = e.changedTouches[0].clientX
       touchHistory.current.unshift(touchX)
       touchHistory.current.pop()
-      const isEdge = touchHistory.current[4] < 100
+      const isEdge = touchHistory.current[4] < 80
       const isSwiping = touchHistory.current.every((touch, index) => touch > (touchHistory.current?.[index + 1] ?? 0))
       if (isEdge && isSwiping) setIsSwiping(true)
     }

@@ -16,6 +16,7 @@ export default function Topbar() {
 
 const getCss = ({pallete, shape}) => ({
   height         : shape.topbar.height,
+  borderBottom   : '1px solid ' + pallete.background[0],
   backgroundColor: pallete.background[3],
   display        : 'flex',
   alignItems     : 'center',

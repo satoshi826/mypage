@@ -1,21 +1,28 @@
 import {Suspense} from 'react'
 import {useRecoilBridgeAcrossReactRoots_UNSTABLE} from 'recoil'
 import {Canvas} from '@react-three/fiber'
-import {ScrollControls, PointerLockControls, Sky} from '@react-three/drei'
-import {useIsOpenSidebarValue} from './frame/useSidebar'
+import {OrbitControls} from '@react-three/drei'
+import useIsMobile from './hooks/useIsMobile'
+import {useIsSwipingValue} from './frame/useSidebar'
 
-export function ThreeBase({children}) {
+import MainLight from './mesh/MainLight'
+import MainRoom from './mesh/MainRoom'
+
+export default function ThreeBase({children}) {
 
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE()
+  const isMobile = useIsMobile()
+  const isSwiping = useIsSwipingValue()
 
   return(
-    <Canvas >
+    <Canvas camera={{fov: isMobile ? 100 : 90, position: [70, 5, 0]}} shadows style={{pointerEvents: isSwiping && 'none'}}>
       <RecoilBridge>
         <Suspense fallback={null}>
-          <ambientLight intensity={0.6} />
-          <Sky scale={1000} sunPosition={[450, 500, 450]} />
           {children}
         </Suspense>
+        <MainLight position={[0, 3, 0]} intensity={0.4} distance={120}/>
+        <MainRoom/>
+        <OrbitControls />
       </RecoilBridge>
     </Canvas>
   )
