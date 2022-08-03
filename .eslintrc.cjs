@@ -4,7 +4,7 @@ module.exports = {
     es2021 : true,
     node   : true
   },
-  extends      : ['plugin:react/recommended', 'eslint:recommended', 'plugin:react-hooks/recommended'],
+  extends      : ['plugin:react/recommended', 'eslint:recommended'],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -44,4 +44,3 @@ module.exports = {
     'space-before-blocks'      : 2,
   },
 }
-  
