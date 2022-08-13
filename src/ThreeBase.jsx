@@ -15,12 +15,12 @@ export default function ThreeBase({children}) {
   const isSwiping = useIsSwipingValue()
 
   return(
-    <Canvas camera={{fov: isMobile ? 100 : 90, position: [70, 5, 0]}} shadows style={{pointerEvents: isSwiping && 'none'}}>
+    <Canvas camera={{fov: isMobile ? 100 : 90, position: [70, 5, 0], near: 1, far: 200}} style={{pointerEvents: isSwiping && 'none'}}>
       <RecoilBridge>
         <Suspense fallback={null}>
           {children}
         </Suspense>
-        <MainLight position={[0, 3, 0]} intensity={0.4} distance={120}/>
+        <MainLight position={[0, 8, 0]} intensity={1} distance={160}/>
         <MainRoom/>
         <OrbitControls />
       </RecoilBridge>
