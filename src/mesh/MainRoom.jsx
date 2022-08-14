@@ -5,7 +5,7 @@ export default function MainRoom() {
   return(
     <mesh scale={150} position={[0, 70, 0]} receiveShadow>
       <boxBufferGeometry />
-      <meshPhongMaterial side={BackSide}/>
+      <meshStandardMaterial side={BackSide}/>
     </mesh>
 
   )

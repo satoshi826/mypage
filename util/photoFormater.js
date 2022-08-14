@@ -1,10 +1,16 @@
+import fs from 'fs'
 import sharp from 'sharp'
 
-sharp('./util/DSC00069.JPG')
-  .resize({
-    width : 1000,
-    height: 1000,
-    fit   : 'inside'
-  })
-  .webp({quality: 70})
-  .toFile('output.webp')
+const photos = fs.readdirSync('./util/rawPhotos')
+
+photos.forEach((photo, index) => {
+  sharp(`./util/rawPhotos/${photo}`)
+    .resize({
+      width : 360,
+      height: 360,
+      fit   : 'inside'
+    })
+    .webp({quality: 30})
+    .toFile(`./util/formatted/${index}.webp`)
+})
+

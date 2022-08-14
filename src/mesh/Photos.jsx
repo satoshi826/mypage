@@ -1,134 +1,158 @@
+// import * as THREE from 'three'
+import {useRef, useState, useLayoutEffect} from 'react'
 import * as THREE from 'three'
-import {useTexture} from '@react-three/drei/core'
-import {useRef, useEffect} from 'react'
+import {useFrame, useThree} from '@react-three/fiber'
+import {Html, useScroll} from '@react-three/drei'
 
-const photoNum = 4
-const MAX_H = 10
+const PHOTONUM = 42
+const MAX_H = 14 // < 16
+const RADIUS = 45
+const SIZE = 1.4
+const MARGIN_V = 15
 
 export default function Photos () {
 
-  const [h, v] = getHV(photoNum)
+  const [h, v] = calcHV(PHOTONUM)
 
-  const textures = useTexture(getTexturePaths(photoNum))
-  const setTextureFunc = setTextureInit(textures)
-  const textureIndex = new Float32Array(new Array(photoNum).fill().map((_, i) => i))
+  const idListFlat = new Array(PHOTONUM).fill(0).map((_, i) => i)
+  let idList = []
+  for (let index = 0; index < v; index++) {
+    idList.push(idListFlat.slice(index * h, (index + 1) * h))
+  }
 
-  const ref = useRef()
-  const tempPhoto = new THREE.Object3D()
+  // const {camera} = useThree()
 
-  useEffect(() => {
-    let counter = 0
-    for (let y = 0; y < v; y++) {
-      for (let x = 0; x < h; x++) {
-        const id = counter++
-        tempPhoto.position.set(...calcPosition(x, y, h))
-        tempPhoto.rotation.y = calcRotation(x, h)
-        tempPhoto.updateMatrix()
-        ref.current.setMatrixAt(id, tempPhoto.matrix)
-        ref.current.geometry.setAttribute('textureIndex', new THREE.InstancedBufferAttribute(textureIndex, 1))
-      }
-    }
-    ref.current.instanceMatrix.needsUpdate = true
-  }, [])
+  // useLayoutEffect(() => {
+  //   camera.lookAt(new THREE.Vector3(0, 20, 0))
+  // }, [])
 
   return (
-    <instancedMesh
-      ref={ref}
-      args={[null, null, h * v]}>
-      <planeBufferGeometry args={[18, 12, 1]} />
-      <meshBasicMaterial color='white' onBeforeCompile={setTextureFunc}/>
-    </instancedMesh>
+    <group position={[0, 5, 0]}>
+      {
+        idList.map((idList, i) =>
+          <group key={i} rotation={[0, (i * Math.PI) / h, 0]} position={[0, i * MARGIN_V, 0]}>
+            <PhotoRing idList={idList} />
+            <FrameRing idList={idList} />
+          </group>
+        )
+      }
+    </group>
+
   )
 }
 
 //----------------------------------------------------------------
 
-function getTexturePaths(num) {
-  return new Array(num).fill().map((_, num) => `./photos/${num}.webp`)
+function PhotoRing ({idList, position}) {
+
+  // const scroll = useScroll().scroll.current
+  // useFrame(() => {})
+
+  const photonum = idList.length
+
+  return (
+    <group position={position}>
+      {idList.map((id, i) =>
+        <Html
+          key={id}
+          scale={SIZE}
+          position={calcPosition(i, photonum)}
+          rotation={calcRotation(i, photonum)}
+          transform
+          style={{pointerEvents: 'none', WebkitUserSelect: 'none', userSelect: 'none'}}
+          occlude
+        >
+          <img src={`./photos/${id}.webp`} />
+        </Html>
+      )}
+    </group>
+  )
 }
 
-function getHV(num) {
+//----------------------------------------------------------------
 
-  let divisorTable = []
-  for (let number = 2; number <= num; number++) {
-    if (num % number === 0) {
-      let exponent = 0
-      while (num % number === 0) {
-        exponent++
-        num /= number
-      }
-      divisorTable.push(...new Array(exponent).fill(number))
+function FrameRing ({idList, position}) {
+
+  const frameRef = useRef()
+  const iinerFrameRef = useRef()
+  const tempFrame = new THREE.Object3D()
+  const tempIinerFrame = new THREE.Object3D()
+  const BASESIZE = 4
+
+  const photonum = idList.length
+
+  useLayoutEffect(() => {
+    let counter = 0
+    for (let x = 0; x < photonum; x++) {
+      const id = counter++
+      tempFrame.position.set(...calcPosition(x, photonum))
+      tempFrame.rotation.y = calcRotation(x, photonum)[1]
+      tempFrame.updateMatrix()
+      frameRef.current.setMatrixAt(id, tempFrame.matrix)
+      tempIinerFrame.position.set(...calcPosition(x, photonum))
+      tempIinerFrame.rotation.y = calcRotation(x, photonum)[1]
+      tempIinerFrame.updateMatrix()
+      iinerFrameRef.current.setMatrixAt(id, tempFrame.matrix)
+    }
+    frameRef.current.instanceMatrix.needsUpdate = true
+    iinerFrameRef.current.instanceMatrix.needsUpdate = true
+  }, [])
+
+  return (
+    <>
+      <instancedMesh
+        ref={frameRef}
+        args={[null, null, photonum]}
+        scale={0.985}
+        position={position}
+      >
+        <boxBufferGeometry args={ [SIZE * BASESIZE * 3, SIZE * BASESIZE * 2, 1]} />
+        <meshLambertMaterial color='#fff'/>
+      </instancedMesh>
+      <instancedMesh
+        ref={iinerFrameRef}
+        args={[null, null, photonum]}
+        scale={0.999}
+        position={position}
+      >
+        <planeBufferGeometry args={ [SIZE * BASESIZE * 3 * 0.75, SIZE * BASESIZE * 2 * 0.75]} />
+        <meshBasicMaterial color='#888'/>
+      </instancedMesh>
+    </>
+  )
+}
+
+
+//----------------------------------------------------------------
+
+function calcHV(num) {
+
+  let h = MAX_H
+  let index
+  for (index = 0; index < MAX_H; index++) {
+    if(num % (MAX_H - index) === 0) {
+      h = MAX_H - index
+      break
     }
   }
 
-  let tmpH = 1
-  for (let index = 0; index < divisorTable.length; index++) {
-    if(tmpH * divisorTable[index] <= MAX_H) {
-      tmpH *= divisorTable[index]
-    }else break
-  }
-
-  const h = (tmpH === 1) ? photoNum : tmpH
-  const v = photoNum / h
+  h = (index === MAX_H - 1) ? num : h
+  const v = PHOTONUM / h
   return [h, v]
 }
 
-function setTextureInit(textures) {
-  return (shader) => {
-    shader.uniforms.textures = {
-      type : 'tv',
-      value: textures
-    }
-    shader.vertexShader = shader.vertexShader
-      .replace(
-        '#include <common>',
-        `#include <common>
-        varying float vTextureIndex;
-        attribute float textureIndex;
-        varying vec2 vUv;
-        `
-      ).replace(
-        '#include <project_vertex>',
-        `#include <project_vertex>
-        vUv = uv;
-        vTextureIndex=textureIndex;`
-      )
-    shader.fragmentShader = shader.fragmentShader
-      .replace(
-        '#include <common>',
-        `#include <common>
-        varying vec2 vUv;
-        uniform sampler2D textures[2];
-        varying float vTextureIndex;`
-      )
-      .replace(
-        '#include <fog_fragment>',
-        `#include <fog_fragment>
-          float x = vTextureIndex;
-          vec4 col = vec4(0, 0, 0, 0);
-          col = texture2D(textures[0], vUv ) * step(-0.1, x) * step(x, 0.1);
-          col += texture2D(textures[1], vUv ) * step(0.9, x) * step(x, 1.1);
-          gl_FragColor = col;
-        `
-      )
-  }
-}
-
-function calcPosition(x, y, h) {
-  const r = 40
-  const unitAngle = 2 * Math.PI / h
+function calcPosition(x, photonum) {
+  const unitAngle = 2 * Math.PI / photonum
   return(
     [
-      r * Math.cos(x * unitAngle),
-      15 * (y + 1) - 10,
-      r * Math.sin(x * unitAngle),
+      RADIUS * Math.cos(x * unitAngle),
+      0,
+      RADIUS * Math.sin(x * unitAngle),
     ]
   )
 }
 
-function calcRotation(index, photoListLength) {
-  const unitAngle = 2 * Math.PI / photoListLength
-  return Math.PI / 2 - index * unitAngle
+function calcRotation(x, photonum) {
+  const unitAngle = 2 * Math.PI / photonum
+  return [0, Math.PI / 2 - x * unitAngle, 0]
 }
-
-
