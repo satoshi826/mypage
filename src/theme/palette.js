@@ -14,6 +14,7 @@ export default function pallete() {
     primary: {
       0: '#9999ff',
       1: '#6666bb',
+      2: '#5555aa',
     },
   }
 }
