@@ -1,5 +1,5 @@
 import {useTheme} from '../../theme/useTheme'
-import useIsMobile from '../../hooks/useIsMobile'
+import {useIsMobile} from '../../hooks/useIsMobile'
 import {useIsOpenSidebarValue, useIsSwipingValue, usePositionValue, useCloseSwipe} from '../useSidebar'
 import Nav from './Nav'
 

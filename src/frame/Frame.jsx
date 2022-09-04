@@ -3,7 +3,7 @@ import Topbar from './topbar/Topbar'
 import Bottombar from './bottombar/Bottombar'
 import {useTheme} from '../theme/useTheme'
 import {useIsOpenSidebar, useOpenSwipe} from './useSidebar'
-import useIsMobile from '../hooks/useIsMobile'
+import {useIsMobile} from '../hooks/useIsMobile'
 
 export default function Frame({children}) {
 

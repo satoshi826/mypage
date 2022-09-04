@@ -1,5 +1,5 @@
 import {useRef} from 'react'
-import {atom, useRecoilState, useRecoilValue} from 'recoil'
+import {atom, useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil'
 import {useTheme} from '../theme/useTheme'
 
 const isOpenState = atom({
@@ -37,7 +37,7 @@ export function useOpenSwipe() {
 
   const [isOpenSidebar, setIsOpenSidebar] = useIsOpenSidebar()
   const [isSwiping, setIsSwiping] = useRecoilState(isSwipingState)
-  const setPosition = useRecoilState(positionState)[1]
+  const setPosition = useSetRecoilState(positionState)
   const touchHistory = useRef(new Array(5).fill(0))
 
   const width = parseInt(useTheme().shape.sidebar.width.slice(0, -2))
@@ -74,8 +74,8 @@ export function useOpenSwipe() {
 export function useCloseSwipe() {
 
   const [isOpenSidebar, setIsOpenSidebar] = useIsOpenSidebar()
-  const setIsSwiping = useRecoilState(isSwipingState)[1]
-  const setPosition = useRecoilState(positionState)[1]
+  const setIsSwiping = useSetRecoilState(isSwipingState)
+  const setPosition = useSetRecoilState(positionState)
   const start = useRef(null)
   const now = useRef(null)
 

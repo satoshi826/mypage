@@ -1,49 +1,96 @@
 // import * as THREE from 'three'
-import {useRef, useState, useLayoutEffect} from 'react'
+import {useRef, useLayoutEffect} from 'react'
 import * as THREE from 'three'
-import {useFrame, useThree} from '@react-three/fiber'
-import {Html, useScroll} from '@react-three/drei'
+import {Preload, Image} from '@react-three/drei'
 
 const PHOTONUM = 42
 const IDLIST = new Array(PHOTONUM).fill(0).map((_, i) => i)
 const MAX_H = 14 // < 16
 const [H] = calcHV(PHOTONUM)
-const RADIUS = 45
-const SIZE = 1.4
-const MARGIN_V = 15
+const RADIUS = 40
+const SIZE = 1
+const MARGIN_V = 12
 
-export default function Photos () {
-
-  // const {camera} = useThree()
-  // useLayoutEffect(() => {
-  //   camera.lookAt(new THREE.Vector3(0, 20, 0))
-  // }, [])
+export default function Photos ({cameraPosition}) {
 
   return (
-    <group position={[0, 0, 0]}>
+    <group position={[0, 0, 0]} >
       <PhotoRings />
       <FrameRings />
     </group>
   )
 }
 
+// export default function Photos ({cameraPosition}) {
+
+//   return (
+//     <PhotoRings />
+//   )
+// }
+
+
 //----------------------------------------------------------------
+
+// function PhotoRings () {
+
+//   const photosRef = useRef()
+//   // const clicked = useRef()
+
+//   // const onPointerMove = (e) => {
+//   //   e.stopPropagation()
+//   //   console.log(e)
+//   //   console.log(photosRef)
+//   //   clicked.current = photosRef.current.children['0']
+//   //   console.log(clicked.current)
+//   // }
+
+//   return (
+//     <group position={[0, -MARGIN_V, 0]} ref={photosRef} onClick={(e) => console.log(e)}>
+//       {IDLIST.map((id, i) =>
+//         <mesh
+//           key={id}
+//           position={calcPosition(i, H, RADIUS + 0.6)}
+//           rotation={calcRotation(i, H)}
+//           scale={[SIZE * 12, SIZE * 8, 1]}
+//           // onPointerMove={(e) => console.log(e.object.position)}
+//           // raycast={() => null}
+//           onClick={(e) => console.log(e.object.position)}
+//         >
+//           <planeBufferGeometry/>
+//         </mesh>
+//       )}
+//     </group>
+//   )
+// }
 
 function PhotoRings () {
 
-  return IDLIST.map((id, i) =>
-    <group key={i} position={[0, -MARGIN_V, 0]}>
-      <Html
-        key={id}
-        scale={SIZE}
-        position={calcPosition(i, H)}
-        rotation={calcRotation(i, H)}
-        transform
-        style={{pointerEvents: 'none', WebkitUserSelect: 'none', userSelect: 'none'}}
-        occlude
-      >
-        <img src={`./photos/${id}.webp`} />
-      </Html>
+  const photosRef = useRef()
+  // const clicked = useRef()
+
+  // const onPointerMove = (e) => {
+  //   e.stopPropagation()
+  //   console.log(e)
+  //   console.log(photosRef)
+  //   clicked.current = photosRef.current.children['0']
+  //   console.log(clicked.current)
+  // }
+
+  return (
+    <group position={[0, -MARGIN_V, 0]} ref={photosRef} onClick={(e) => console.log(e)}>
+      <Preload/>
+      {IDLIST.map((id, i) =>
+        <Image
+          key={id}
+          position={calcPosition(i, H, RADIUS + 0.6)}
+          rotation={calcRotation(i, H)}
+          scale={[SIZE * 12, SIZE * 8, 1]}
+          url={`./photos/${id}.webp`}
+          // onPointerMove={(e) => console.log(e.object.position)}
+          // raycast={() => null}
+          // onClick={(e) => console.log(e.object.position)}
+        />
+      )}
     </group>
   )
 }
@@ -53,31 +100,49 @@ function PhotoRings () {
 function FrameRings () {
 
   const frameRef = useRef()
+  const outerRef = useRef()
+  // const hoverId = useRef()
+
   const tempFrame = new THREE.Object3D()
-  const BASESIZE = 4
 
   useLayoutEffect(() => {
     let counter = 0
     for (let i = 0; i < PHOTONUM; i++) {
       const id = counter++
-      tempFrame.position.set(...calcPosition(i, H))
+      tempFrame.position.set(...calcPosition(i, H, RADIUS))
       tempFrame.rotation.y = calcRotation(i, H)[1]
       tempFrame.updateMatrix()
       frameRef.current.setMatrixAt(id, tempFrame.matrix)
+      outerRef.current.setMatrixAt(id, tempFrame.matrix)
     }
     frameRef.current.instanceMatrix.needsUpdate = true
+    outerRef.current.instanceMatrix.needsUpdate = true
   }, [])
 
   return (
-    <instancedMesh
-      ref={frameRef}
-      args={[null, null, PHOTONUM]}
-      scale={0.985}
-      position={[0, -MARGIN_V, 0]}
-    >
-      <boxBufferGeometry args={ [SIZE * BASESIZE * 3, SIZE * BASESIZE * 2, 1]} />
-      <meshLambertMaterial color='#aaa'/>
-    </instancedMesh>
+    <>
+      <instancedMesh
+        ref={frameRef}
+        args={[null, null, PHOTONUM]}
+        scale={1}
+        position={[0, -MARGIN_V, 0]}
+      >
+        <boxBufferGeometry args={[SIZE * 12 + 0.5, SIZE * 8 + 0.5, 1]} />
+        <meshLambertMaterial color='#666' />
+      </instancedMesh>
+      <instancedMesh
+        ref={outerRef}
+        args={[null, null, PHOTONUM]}
+        scale={1}
+        position={[0, -MARGIN_V, 0]}
+        // onPointerMove={(e) => (hoverId.current = e.instanceId, console.log((e.instanceId)))}
+        // onPointerOut={(e) => (hoverId.current = null, console.log((e.instanceId)))}
+      >
+        <boxBufferGeometry args={[SIZE * 12 + 1.5, SIZE * 8 + 1.5, 0.5]} />
+        <meshBasicMaterial color='#222' />
+      </instancedMesh>
+    </>
+
   )
 }
 
@@ -99,15 +164,15 @@ function calcHV(num) {
   return [h, v]
 }
 
-function calcPosition(i, H) {
+function calcPosition(i, H, r) {
   const baseAngle = i * 2 * Math.PI / H
   const v = Math.floor(i / H)
   const offsetAngle = (v * Math.PI) / H
   return(
     [
-      RADIUS * Math.cos(baseAngle + offsetAngle),
+      r * Math.cos(baseAngle + offsetAngle),
       v * MARGIN_V,
-      RADIUS * Math.sin(baseAngle + offsetAngle),
+      r * Math.sin(baseAngle + offsetAngle),
     ]
   )
 }

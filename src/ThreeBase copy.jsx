@@ -17,7 +17,7 @@ export default function ThreeBase({children}) {
   return(
     <Canvas
       dpr={window.devicePixelRatio}
-      camera={{fov: isMobile ? 110 : 90, near: 2, far: 200}}
+      camera={{fov: isMobile ? 110 : 90, position: [60, 0, 0], near: 2, far: 200}}
       style={{pointerEvents: isSwiping && 'none', height: '100%'}}
     >
       <RecoilBridge>

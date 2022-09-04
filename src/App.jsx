@@ -1,6 +1,7 @@
 import {lazy, Suspense} from 'react'
 import {Route} from 'wouter'
 import Frame from './frame/Frame'
+import {useIsMobileListener} from './hooks/useIsMobile'
 
 const ThreeBase = lazy(() => import('./ThreeBase'))
 const Top = lazy(() => import('./pages/top/Top'))
@@ -9,6 +10,8 @@ const Gallery = lazy(() => import('./pages/gallery/Gallery'))
 // const Gallery = lazy(() => import('./pages/gallery/Gallery'))
 
 export default function App() {
+
+  useIsMobileListener()
 
   return (
     <Frame>
@@ -24,4 +27,3 @@ export default function App() {
     </Frame>
   )
 }
-

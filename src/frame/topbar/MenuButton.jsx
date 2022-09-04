@@ -1,6 +1,6 @@
 import {useIsOpenSidebar, useIsOpenSidebarValue} from '../useSidebar'
 import {useTheme} from '../../theme/useTheme'
-import useIsMobile from '../../hooks/useIsMobile'
+import {useIsMobile} from '../../hooks/useIsMobile'
 
 export default function MenuButton() {
 

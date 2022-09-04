@@ -1,13 +1,10 @@
-import {useRef} from 'react'
 
-export default function MainLight({position, intensity, distance}) {
-  const ref = useRef()
+export default function MainLight({position, intensity, distance}) {//スクロール速度に合わせて明るさ変更とかおもろそう
   return(
-    <group position={position} >
-      <pointLight intensity={intensity} decay={2} distance={distance} ref={ref}/>
-      <mesh scale={1} >
-        <sphereBufferGeometry args={[4, 15, 20]} />
-        {/* <cylinderBufferGeometry args={[0.1, 0.1, 60, 10]} /> */}
+    <group position={position} scale={1}>
+      <pointLight intensity={intensity} decay={2} distance={distance} />
+      <mesh >
+        <sphereBufferGeometry args={[3, 20, 20]} />
         <meshBasicMaterial />
       </mesh>
     </group>

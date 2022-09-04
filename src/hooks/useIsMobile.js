@@ -1,10 +1,16 @@
-import {useState, useEffect} from 'react'
+import {atom, useSetRecoilState, useRecoilValue} from 'recoil'
+import {useEffect} from 'react'
 
 const mediaQuery = window.matchMedia('(max-width: 768px)')
 
-export default function useIsMobile() {
+const isMoblieState = atom({
+  key    : 'isMoblieState',
+  default: mediaQuery.matches
+})
 
-  const [isMoblie, setIsMoblie] = useState(mediaQuery.matches)
+export function useIsMobileListener() {
+
+  const setIsMoblie = useSetRecoilState(isMoblieState)
 
   const handle = ({matches}) => {
     setIsMoblie(matches)
@@ -17,5 +23,9 @@ export default function useIsMobile() {
     }
   })
 
-  return isMoblie
+  return null
+}
+
+export function useIsMobile() {
+  return useRecoilValue(isMoblieState)
 }
