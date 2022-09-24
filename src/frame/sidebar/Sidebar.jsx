@@ -42,7 +42,7 @@ const getCss = ({isSwiping, pallete, shape}) => ({
 const getTransformMobile = ({isOpenSidebar, isSwiping, positionSwiping, shape}) => {
   const sidebarWidth = parseInt(shape.sidebar.width.slice(0, -2))
   const position = (((isSwiping ? positionSwiping : (isOpenSidebar ? sidebarWidth : 0)) - sidebarWidth)) + 'px'
-  return'translateX(' + position + ')'
+  return 'translateX(' + position + ')'
 }
 
 const getTransformPc = ({isOpenSidebar, shape}) => {

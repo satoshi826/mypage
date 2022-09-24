@@ -7,10 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeply": "vite build",
     "deploy": "firebase deploy",
     "lint": "eslint --fix",
-    "photo": "node ./util/photoFormater.js"
+    "photo": "node ./util/photoFormater.js",
+    "predeploy": "vite build",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -31,6 +32,7 @@
     "@vitejs/plugin-react": "^2.0.0",
     "eslint": "^8.20.0",
     "eslint-plugin-react": "^7.30.1",
+    "patch-package": "^6.4.7",
     "sharp": "^0.30.7",
     "vite": "^3.0.2"
   }

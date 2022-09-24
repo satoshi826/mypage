@@ -1,5 +1,5 @@
 import {useThemeCallback} from '../../theme/useTheme'
-// import Typography from '../../component/Typography'
+import BackButton from './BackButton'
 
 export default function Bottombar() {
 
@@ -7,17 +7,16 @@ export default function Bottombar() {
 
   return (
     <div css={bottombarCss}>
-      {/* <Typography>
-        this is bottom
-      </Typography> */}
+      <BackButton/>
     </div>
   )
 }
 
 const getCss = ({pallete, shape}) => ({
+  height         : shape.topbar.height,
   backgroundColor: pallete.background[0],
   borderTop      : '1px solid ' + pallete.background[2],
-  height         : shape.topbar.height,
   display        : 'flex',
   alignItems     : 'center',
+  justifyContent : 'center',
 })

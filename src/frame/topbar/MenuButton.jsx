@@ -9,21 +9,22 @@ export default function MenuButton() {
   const isMobile = useIsMobile()
 
   return (
-    <div onClick={() => setIsOpen((v) => !v)} css={getLineCss({pallete, isOpen, isMobile})} >
+    <div onClick={() => setIsOpen((v) => !v)} css={getLineCss(pallete, isOpen, isMobile)}>
       {isMobile ? <MenuIconMobile/> : <MenuIconPc/>}
     </div>
   )
 }
 
-const getLineCss = ({pallete, isOpen, isMobile}) => ({
+const getLineCss = ({primary, text}, isOpen, isMobile) => ({
+  cursor     : 'pointer',
   transition : 'all .6s',
-  stroke     : (isMobile && isOpen) ? pallete.primary[0] : pallete.text[1],
+  stroke     : (isMobile && isOpen) ? primary[0] : text[1],
   strokeWidth: '2px',
   '&:hover'  : {
-    stroke: pallete.primary[0],
+    stroke: primary[0],
   },
-  userSelect : 'none',
-  paddingLeft: '20px',
+  userSelect             : 'none',
+  WebkitTapHighlightColor: 'rgba(0,0,0,0)'
 })
 
 const MenuIconMobile = () => {
@@ -98,7 +99,7 @@ const MenuIconPc = () => {
     'M 40 35 l -15 10'
   ]
 
-  const id = 'icon'
+  const id = 'menu'
 
   return (
     <svg

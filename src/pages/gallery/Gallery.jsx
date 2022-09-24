@@ -1,67 +1,57 @@
-import * as THREE from 'three'
 import {useRef} from 'react'
-import {useScroll, ScrollControls} from '@react-three/drei'
-import {useFrame} from '@react-three/fiber'
-import Photos from '../../mesh/Photos'
+import {atom, useSetRecoilState, useRecoilValue} from 'recoil'
+import {ScrollControls} from '@react-three/drei'
+import {useIsTransition} from '../../hooks/usePageTransition'
+import Photos from './Photos'
+import GalleryCamera from './GalleryCamera'
+import AutoScroller from './AutoScroller'
+import GalleryFadeOut from './GalleryFadeOut'
 
-const R = 59
+//----------------------------------------------------------------
+
+const selectedPhotoState = atom({
+  key    : 'selectedPhotoState',
+  default: null, //{id, position, rotation}
+})
+
+export const useSetSelectedPhoto = () => useSetRecoilState(selectedPhotoState)
+export const useSelectedPhoto = () => useRecoilValue(selectedPhotoState)
+
+//----------------------------------------------------------------
+
+const hoverIdState = atom({
+  key    : 'hoverIdState',
+  default: null,
+})
+
+export const useSetHoverId = () => useSetRecoilState(hoverIdState)
+export const useHoverId = () => useRecoilValue(hoverIdState)
+
+//----------------------------------------------------------------
+
+const autoScrollState = atom({
+  key    : 'autoScrollState',
+  default: false,
+})
+
+export const useSetIsAutoScroll = () => useSetRecoilState(autoScrollState)
+export const useIsAutoScroll = () => useRecoilValue(autoScrollState)
+
+//----------------------------------------------------------------
+
 
 export default function Gallery() {
 
-  const cameraPosition = useRef(null)
+  const isAutoScroll = useIsAutoScroll()
+  const isTransition = useIsTransition()
+  const photosRef = useRef()
 
   return (
-    <ScrollControls pages={10} infinite horizontal>
-      <GalleryCamera cameraPosition={cameraPosition}/>
-      <Photos cameraPosition={cameraPosition}/>
+    <ScrollControls pages={10} damping={10} infinite horizontal>
+      <Photos ref={photosRef}/>
+      <GalleryCamera />
+      {isAutoScroll && <AutoScroller />}
+      {isTransition && <GalleryFadeOut ref={photosRef}/>}
     </ScrollControls>
-  )
-}
-
-function GalleryCamera() {
-
-  const scroll = useScroll()
-  const lightRef = useRef()
-
-  useFrame((state, delta) => {
-    const scrollValue = scroll.scroll.current
-    state.camera.position.set(...calcCameraPosition(state.camera.position, scrollValue, delta))
-    state.camera.rotation.set(...calcCameraRotation(scrollValue))
-    lightRef.current.position.set(...calcLightPosition(lightRef.current.position, scrollValue, delta))
-    state.camera.updateProjectionMatrix()
-  })
-
-  return <pointLight intensity={100} decay={2} distance={26} ref={lightRef}/>
-}
-
-//------------------------------------------------------------------------------
-
-function calcCameraRotation(scroll) {
-  return(
-    [
-      0,
-      (0.5 + scroll * 2) * Math.PI,
-      0
-    ]
-  )
-}
-
-function calcCameraPosition({y}, scroll) { //Θをdampすればよいのでは
-  return(
-    [
-      R * Math.cos(-scroll * 2 * Math.PI),
-      y,
-      R * Math.sin(-scroll * 2 * Math.PI),
-    ]
-  )
-}
-
-function calcLightPosition({x, y, z}, scroll, delta) {
-  return(
-    [
-      THREE.MathUtils.damp(x, R * Math.cos(-scroll * 2 * Math.PI), 1, delta),
-      y,
-      THREE.MathUtils.damp(z, R * Math.sin(-scroll * 2 * Math.PI), 1, delta)
-    ]
   )
 }

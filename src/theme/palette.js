@@ -4,6 +4,7 @@ export default function pallete() {
       0: '#ffffff',
       1: '#dddddd',
       2: '#aaaaaa',
+      3: '#888888',
     },
     background: {
       0: '#050505',
@@ -14,7 +15,7 @@ export default function pallete() {
     primary: {
       0: '#9999ff',
       1: '#6666bb',
-      2: '#5555aa',
+      2: '#555599',
     },
   }
 }

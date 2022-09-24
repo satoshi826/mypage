@@ -1,0 +1,37 @@
+diff --git a/node_modules/@react-three/drei/web/ScrollControls.js b/node_modules/@react-three/drei/web/ScrollControls.js
+index dc7d257..a6a626f 100644
+--- a/node_modules/@react-three/drei/web/ScrollControls.js
++++ b/node_modules/@react-three/drei/web/ScrollControls.js
+@@ -69,6 +69,7 @@ function ScrollControls({
+     return state;
+   }, [eps, damping, horizontal, pages]);
+   React.useEffect(() => {
++    el.id = 'scroll-controller';
+     el.style.position = 'absolute';
+     el.style.width = '100%';
+     el.style.height = '100%';
+@@ -98,15 +99,15 @@ function ScrollControls({
+     const oldTarget = events.connected || gl.domElement;
+     requestAnimationFrame(() => events.connect == null ? void 0 : events.connect(el));
+     const oldCompute = get().events.compute;
+-    setEvents({
+-      compute(event, state) {
+-        const offsetX = event.clientX - target.offsetLeft;
+-        const offsetY = event.clientY - target.offsetTop;
+-        state.pointer.set(offsetX / state.size.width * 2 - 1, -(offsetY / state.size.height) * 2 + 1);
+-        state.raycaster.setFromCamera(state.pointer, state.camera);
+-      }
+-
+-    });
++    // setEvents({
++    //   compute(event, state) {
++    //     const offsetX = event.clientX - target.offsetLeft;
++    //     const offsetY = event.clientY - target.offsetTop;
++    //     state.pointer.set(offsetX / state.size.width * 2 - 1, -(offsetY / state.size.height) * 2 + 1);
++    //     state.raycaster.setFromCamera(state.pointer, state.camera);
++    //   }
++
++    // });
+     return () => {
+       target.removeChild(el);
+       setEvents({

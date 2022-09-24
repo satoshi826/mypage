@@ -1,20 +1,27 @@
 import {Link, useLocation} from 'wouter'
 import {useTheme} from '../../theme/useTheme'
+import {useIsMobile} from '../../hooks/useIsMobile'
+import {useIsTransition} from '../../hooks/usePageTransition'
+import {useIsOpenSidebar} from '../useSidebar'
 
 export default function Nav({url, name}) {
   const [location] = useLocation()
   const isActive = location === url
+  const isMobile = useIsMobile()
+  const isTransition = useIsTransition()
   const {pallete} = useTheme()
+  const setIsOpen = useIsOpenSidebar()[1]
   const {baseCss, activeCss, passiveCss} = getCss({pallete})
 
   return (
-    <Link href={url} >
-      <nav css={{position: 'relative'}}>
-        <div css={isActive ? [baseCss, activeCss] : [baseCss, passiveCss]}>
+    <nav css={[{position: 'relative'}, isTransition && {pointerEvents: 'none'}]} onClick={() => isMobile && setIsOpen(false)}>
+      <Link href={url} >
+        <div
+          css={[baseCss, isActive ? activeCss : passiveCss]}>
           {name}
         </div>
-      </nav>
-    </Link>
+      </Link>
+    </nav>
   )
 }
 
