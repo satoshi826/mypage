@@ -1,5 +1,7 @@
 import {useThemeCallback} from '../../theme/useTheme'
-import BackButton from './BackButton'
+import MenuGallery from './MenuGallery'
+import MenuAbout from './MenuAbout'
+import MenuTop from './MenuTop'
 
 export default function Bottombar() {
 
@@ -7,16 +9,19 @@ export default function Bottombar() {
 
   return (
     <div css={bottombarCss}>
-      <BackButton/>
+      <MenuGallery/>
+      <MenuAbout/>
+      <MenuTop/>
     </div>
   )
 }
 
 const getCss = ({pallete, shape}) => ({
-  height         : shape.topbar.height,
+  minHeight      : shape.topbar.height,
   backgroundColor: pallete.background[0],
   borderTop      : '1px solid ' + pallete.background[2],
   display        : 'flex',
+  position       : 'relative',
   alignItems     : 'center',
   justifyContent : 'center',
 })

@@ -1,3 +1,32 @@
+diff --git a/node_modules/@react-three/drei/core/SpotLight.js b/node_modules/@react-three/drei/core/SpotLight.js
+index d11b473..476d7c5 100644
+--- a/node_modules/@react-three/drei/core/SpotLight.js
++++ b/node_modules/@react-three/drei/core/SpotLight.js
+@@ -17,6 +17,7 @@ const SpotLight = /*#__PURE__*/React.forwardRef(({
+   anglePower = 5,
+   ...props
+ }, ref) => {
++  const { ref1, ref2 } = ref;
+   const mesh = React.useRef(null);
+   const size = useThree(state => state.size);
+   const camera = useThree(state => state.camera);
+@@ -27,6 +28,7 @@ const SpotLight = /*#__PURE__*/React.forwardRef(({
+   useFrame(() => {
+     material.uniforms.spotPosition.value.copy(mesh.current.getWorldPosition(vec));
+     mesh.current.lookAt(mesh.current.parent.target.getWorldPosition(vec));
++    material.uniforms.opacity.value = ref2.current;
+   });
+   const geom = React.useMemo(() => {
+     const geometry = new CylinderGeometry(radiusTop, radiusBottom, distance, 128, 64, true);
+@@ -35,7 +37,7 @@ const SpotLight = /*#__PURE__*/React.forwardRef(({
+     return geometry;
+   }, [angle, distance, radiusTop, radiusBottom]);
+   return /*#__PURE__*/React.createElement("spotLight", _extends({
+-    ref: ref,
++    ref: ref1,
+     angle: angle,
+     color: color,
+     distance: distance
 diff --git a/node_modules/@react-three/drei/web/ScrollControls.js b/node_modules/@react-three/drei/web/ScrollControls.js
 index dc7d257..a6a626f 100644
 --- a/node_modules/@react-three/drei/web/ScrollControls.js

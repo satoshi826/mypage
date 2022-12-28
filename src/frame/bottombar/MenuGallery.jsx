@@ -2,12 +2,17 @@ import {useTheme} from '../../theme/useTheme'
 import {useIsMobile} from '../../hooks/useIsMobile'
 import {useSetSelectedPhoto, useSelectedPhoto,
   useSetIsAutoScroll, useIsAutoScroll} from '../../pages/gallery/Gallery'
+import {useCurrentLocation, useCurrentPage} from '../../hooks/usePageTransition'
 
-export default function BackButton() {
+export default function MenuGallery() {
 
   const isMobile = useIsMobile()
   const setSelectedPhoto = useSetSelectedPhoto()
   const isView = !!useSelectedPhoto()
+  const location = useCurrentLocation()
+  const currentPage = useCurrentPage()
+
+  const isGallery = location === '/gallery' && currentPage === '/gallery'
   const {pallete, shape} = useTheme()
 
   const isPlay = useIsAutoScroll()
@@ -19,59 +24,66 @@ export default function BackButton() {
   }
 
   return (
-    <span onClick={handleClick} css={getLineCss(pallete, shape, isView, isMobile)}>
+    <span onClick={handleClick} css={getLineCss(pallete, shape, isMobile, isGallery)}>
       <BackButtonIcon isPlay={isPlay}/>
     </span>
   )
 }
 
-const getLineCss = ({primary, text}, {sidebar}, isView, isMobile) => ({
-  cursor     : 'pointer',
-  color      : text[0],
-  transition : 'all .25s',
-  stroke     : text[1],
-  strokeWidth: '2px',
-  '&:hover'  : isMobile || {
+const getLineCss = ({primary, text}, {bottombar}, isMobile, isGallery) => ({
+  position       : 'absolute',
+  cursor         : 'pointer',
+  color          : text[0],
+  transition     : 'all .4s',
+  transitionDelay: 'transform .5s',
+  transform      : !isGallery && `translateY(${bottombar.height})`,
+  height         : bottombar.height,
+  stroke         : text[1],
+  strokeWidth    : '2px',
+  '&:hover'      : isMobile || {
     stroke     : primary[0],
     strokeWidth: '2px',
   },
   userSelect             : 'none',
-  WebkitTapHighlightColor: 'rgba(0,0,0,0)'
+  WebkitTapHighlightColor: 'rgba(0,0,0,0)',
 })
 
 
 const BackButtonIcon = ({isPlay}) => {
 
   const isView = !!useSelectedPhoto()
+  const currentPage = useCurrentPage()
+
+  const key = (currentPage === '/gallery') ? 'active' : 'hidden'
 
   const play = [
-    'M 5 20 l 0 15',
-    'M 5 50 l 0 -15',
-    'M 5 20 l 35 15',
-    'M 5 50 l 35 -15',
+    'M 5 15 l 0 15',
+    'M 5 45 l 0 -15',
+    'M 5 15 l 35 15',
+    'M 5 45 l 35 -15',
   ]
 
   const pause = [
-    'M 15 20 l 0 15',
-    'M 15 50 l 0 -15',
-    'M 30 20 l 0 15',
-    'M 30 50 l 0 -15',
+    'M 15 15 l 0 15',
+    'M 15 45 l 0 -15',
+    'M 30 15 l 0 15',
+    'M 30 45 l 0 -15',
   ]
 
   const back = [
-    'M 5 20 l 15 15',
-    'M 5 50 l 15 -15',
-    'M 35 20 l -15 15',
-    'M 35 50 l -15 -15',
+    'M 5 15 l 15 15',
+    'M 5 45 l 15 -15',
+    'M 35 15 l -15 15',
+    'M 35 45 l -15 -15',
   ]
 
   const base = isPlay ? pause : play
-  const id = 'play'
+  const id = 'playIcon'
 
   return (
     <svg
       id={id}
-      key={isView}
+      key={isView + key}
       width={40}
       height={60}
     >

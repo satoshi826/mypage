@@ -1,0 +1,70 @@
+Date : 2022-10-22 01:02:56
+Directory : c:\git\mypage\src
+Total : 33 files,  1629 codes, 69 comments, 314 blanks, all 2012 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JavaScript React |         25 |      1,419 |         69 |        272 |      1,760 |
+| JavaScript       |          7 |        197 |          0 |         42 |        239 |
+| CSS              |          1 |         13 |          0 |          0 |         13 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                               | files      | code       | comment    | blank      | total      |
++----------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                  |         33 |      1,629 |         69 |        314 |      2,012 |
+| frame                                              |         10 |        634 |         25 |        106 |        765 |
+| frame\bottombar                                    |          3 |        175 |         23 |         28 |        226 |
+| frame\sidebar                                      |          2 |        114 |          0 |         17 |        131 |
+| frame\topbar                                       |          3 |        149 |          2 |         23 |        174 |
+| hooks                                              |          3 |         58 |          0 |         18 |         76 |
+| mesh                                               |          2 |         65 |          2 |         20 |         87 |
+| pages                                              |         10 |        680 |         15 |        135 |        830 |
+| pages\about                                        |          4 |        275 |          4 |         34 |        313 |
+| pages\gallery                                      |          5 |        387 |          9 |         96 |        492 |
+| pages\top                                          |          1 |         18 |          2 |          5 |         25 |
+| theme                                              |          3 |         52 |          0 |          5 |         57 |
++----------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                           | language         | code       | comment    | blank      | total      |
++----------------------------------------------------+------------------+------------+------------+------------+------------+
+| c:\git\mypage\src\App.jsx                          | JavaScript React |         14 |          0 |          2 |         16 |
+| c:\git\mypage\src\ThreeRoot.jsx                    | JavaScript React |         76 |         27 |         17 |        120 |
+| c:\git\mypage\src\TransitionRouter.jsx             | JavaScript React |         25 |          0 |          9 |         34 |
+| c:\git\mypage\src\frame\Frame.jsx                  | JavaScript React |        109 |          0 |         19 |        128 |
+| c:\git\mypage\src\frame\bottombar\Bottombar.jsx    | JavaScript React |         21 |          0 |          4 |         25 |
+| c:\git\mypage\src\frame\bottombar\MenuAbout.jsx    | JavaScript React |         60 |          7 |          8 |         75 |
+| c:\git\mypage\src\frame\bottombar\MenuGallery.jsx  | JavaScript React |         94 |         16 |         16 |        126 |
+| c:\git\mypage\src\frame\sidebar\Nav.jsx            | JavaScript React |         68 |          0 |          7 |         75 |
+| c:\git\mypage\src\frame\sidebar\Sidebar.jsx        | JavaScript React |         46 |          0 |         10 |         56 |
+| c:\git\mypage\src\frame\topbar\Clock.jsx           | JavaScript React |          9 |          0 |          1 |         10 |
+| c:\git\mypage\src\frame\topbar\MenuButton.jsx      | JavaScript React |        122 |          0 |         18 |        140 |
+| c:\git\mypage\src\frame\topbar\Topbar.jsx          | JavaScript React |         18 |          2 |          4 |         24 |
+| c:\git\mypage\src\frame\useSidebar.js              | JavaScript       |         87 |          0 |         19 |        106 |
+| c:\git\mypage\src\hooks\useIsMobile.js             | JavaScript       |         23 |          0 |          8 |         31 |
+| c:\git\mypage\src\hooks\useNowDate.js              | JavaScript       |         12 |          0 |          4 |         16 |
+| c:\git\mypage\src\hooks\usePageTransition.js       | JavaScript       |         23 |          0 |          6 |         29 |
+| c:\git\mypage\src\main.jsx                         | JavaScript React |         12 |          0 |          2 |         14 |
+| c:\git\mypage\src\mesh\MainLight.jsx               | JavaScript React |         56 |          2 |         19 |         77 |
+| c:\git\mypage\src\mesh\Room.jsx                    | JavaScript React |          9 |          0 |          1 |         10 |
+| c:\git\mypage\src\pages\about\About.jsx            | JavaScript React |         19 |          0 |          3 |         22 |
+| c:\git\mypage\src\pages\about\AboutFadeIn.jsx      | JavaScript React |         36 |          0 |          9 |         45 |
+| c:\git\mypage\src\pages\about\AboutFadeOut.jsx     | JavaScript React |         16 |          2 |          5 |         23 |
+| c:\git\mypage\src\pages\about\Text.jsx             | JavaScript React |        204 |          2 |         17 |        223 |
+| c:\git\mypage\src\pages\gallery\AutoScroller.jsx   | JavaScript React |         10 |          0 |          5 |         15 |
+| c:\git\mypage\src\pages\gallery\Gallery.jsx        | JavaScript React |         59 |          4 |         16 |         79 |
+| c:\git\mypage\src\pages\gallery\GalleryCamera.jsx  | JavaScript React |         82 |          2 |         25 |        109 |
+| c:\git\mypage\src\pages\gallery\GalleryFadeOut.jsx | JavaScript React |         74 |          0 |         18 |         92 |
+| c:\git\mypage\src\pages\gallery\Photos.jsx         | JavaScript React |        162 |          3 |         32 |        197 |
+| c:\git\mypage\src\pages\top\Top.jsx                | JavaScript React |         18 |          2 |          5 |         25 |
+| c:\git\mypage\src\styles.css                       | CSS              |         13 |          0 |          0 |         13 |
+| c:\git\mypage\src\theme\palette.js                 | JavaScript       |         21 |          0 |          0 |         21 |
+| c:\git\mypage\src\theme\shape.js                   | JavaScript       |         13 |          0 |          0 |         13 |
+| c:\git\mypage\src\theme\useTheme.js                | JavaScript       |         18 |          0 |          5 |         23 |
+| Total                                              |                  |      1,629 |         69 |        314 |      2,012 |
++----------------------------------------------------+------------------+------------+------------+------------+------------+

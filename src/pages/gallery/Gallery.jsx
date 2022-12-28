@@ -1,11 +1,12 @@
 import {useRef} from 'react'
 import {atom, useSetRecoilState, useRecoilValue} from 'recoil'
 import {ScrollControls} from '@react-three/drei'
-import {useIsTransition} from '../../hooks/usePageTransition'
+import {useIsMobile} from '../../hooks/useIsMobile'
 import Photos from './Photos'
 import GalleryCamera from './GalleryCamera'
 import AutoScroller from './AutoScroller'
 import GalleryFadeOut from './GalleryFadeOut'
+import GalleryFadeIn from './GalleryFadeIn'
 
 //----------------------------------------------------------------
 
@@ -39,19 +40,30 @@ export const useIsAutoScroll = () => useRecoilValue(autoScrollState)
 
 //----------------------------------------------------------------
 
-
 export default function Gallery() {
 
   const isAutoScroll = useIsAutoScroll()
-  const isTransition = useIsTransition()
   const photosRef = useRef()
+
+  const isMobile = useIsMobile()
+  const galleryLight = {
+    intensity: 4,
+    distance : 80,
+    size     : 1,
+    power    : isMobile ? 0.25 : 1.5,
+    lambda   : 2,
+    position : [0, 0, 0],
+    flash    : null
+  }
+
 
   return (
     <ScrollControls pages={10} damping={10} infinite horizontal>
-      <Photos ref={photosRef}/>
+      <Photos galleryLight={galleryLight} ref={photosRef}/>
       <GalleryCamera />
       {isAutoScroll && <AutoScroller />}
-      {isTransition && <GalleryFadeOut ref={photosRef}/>}
+      <GalleryFadeOut ref={photosRef}/>
+      <GalleryFadeIn galleryLight={galleryLight} ref={photosRef}/>
     </ScrollControls>
   )
 }

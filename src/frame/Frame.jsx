@@ -4,8 +4,9 @@ import Bottombar from './bottombar/Bottombar'
 import {useTheme} from '../theme/useTheme'
 import {useIsOpenSidebar} from './useSidebar'
 import {useIsMobile} from '../hooks/useIsMobile'
-import {useIsTransition} from '../hooks/usePageTransition'
+import {useCurrentLocation} from '../hooks/usePageTransition'
 import {useSelectedPhoto} from '../pages/gallery/Gallery'
+
 
 export default function Frame({children}) {
 
@@ -14,10 +15,10 @@ export default function Frame({children}) {
   const {pallete, shape} = useTheme()
   const {appCss, mainCss, baseContentCss, closeContentCss} = isMobile ? getCssMobile({pallete, shape}) : getCssPC({pallete, shape})
 
-  const closeSidebar = () => isMobile && isOpenSidebar && setIsOpenSidebar(false)
+  const closeSidebar = () => (isMobile && isOpenSidebar) && setIsOpenSidebar(false)
 
   return (
-    <div css={appCss}>
+    <div css={appCss} >
       <ScrollStyle/>
       <Topbar />
       <div css={mainCss}>
@@ -101,8 +102,8 @@ function ScrollStyle() {
 
   const {pallete} = useTheme()
   const isSelected = !!useSelectedPhoto()
-  const isTransition = useIsTransition()
-  const isEnable = !isSelected && !isTransition
+  const location = useCurrentLocation()
+  const isEnable = (location === '/gallery') && !isSelected
 
   return (
     <style dangerouslySetInnerHTML={{
@@ -119,6 +120,7 @@ function ScrollStyle() {
       ::-webkit-scrollbar{
         transition : all .6s;
         height: ${isEnable ? '10px' : '0px'};
+        width: 12px;
       }
     `
     }}>

@@ -99,7 +99,7 @@ const MenuIconPc = () => {
     'M 40 35 l -15 10'
   ]
 
-  const id = 'menu'
+  const id = 'menu' + isOpen ? 'open' : 'close'
 
   return (
     <svg

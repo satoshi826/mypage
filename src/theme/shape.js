@@ -1,7 +1,7 @@
 export default function shape() {
   return {
     sidebar: {
-      width: '220px'
+      width: '230px'
     },
     topbar: {
       height: '60px'

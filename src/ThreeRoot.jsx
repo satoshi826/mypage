@@ -4,7 +4,6 @@ import {Canvas, useFrame} from '@react-three/fiber'
 import {useDetectGPU} from '@react-three/drei'
 import {EffectComposer, Bloom, DepthOfField} from '@react-three/postprocessing'
 import {useIsTransition} from './hooks/usePageTransition'
-import {useIsSwipingValue} from './frame/useSidebar'
 import {useSelectedPhoto} from './pages/gallery/Gallery'
 
 import TransitionRouter from './TransitionRouter'
@@ -14,16 +13,11 @@ import MainRoom from './mesh/Room'
 export default function ThreeRoot() {
 
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE()
-  const isTransition = useIsTransition()
-  const isSwiping = useIsSwipingValue()
-  const isExistSelectedPhoto = !!useSelectedPhoto()
-
 
   return(
     <Canvas
-      dpr={Math.min(window.devicePixelRatio, 2)}
-      camera={{fov: 90, near: 5, far: 180}}
-      css={ (isSwiping || isExistSelectedPhoto || isTransition) && {pointerEvents: 'none'}}
+      dpr={[1, 2]}
+      camera={{fov: 90, near: 0.1, far: 190}}
       gl={{antialias: false}}
       performance={{
         current : 1,
@@ -33,7 +27,6 @@ export default function ThreeRoot() {
       }}
     >
       <RecoilBridge>
-        {/* <fog attach="fog" args={['#bbb', 10, 1000]} /> */}
         <MainLight/>
         <MainRoom/>
         <Suspense fallback={null}>
@@ -59,7 +52,7 @@ function Effect() {
     <EffectComposer sample={0}>
       {
         isExistSelectedPhoto ?
-          GPUTier > 2 && <DepthOfField focusDistance={0.0202} focalLength={0.02} bokehScale={6}/>
+          GPUTier > 2 && <DepthOfField focusDistance={0.04455} focalLength={0.02} bokehScale={6}/>
           :
           <Bloom
             kernelSize={0}
@@ -73,12 +66,15 @@ function Effect() {
 }
 
 function ResponsiveZoom() {
+
   const aspectRatioPre = useRef(1)
+
   useFrame((state) => {
     const aspectRatio = window.innerWidth / window.innerHeight
     if (aspectRatio !== aspectRatioPre) {
-      state.camera.zoom = Math.min(1.2 * (window.innerWidth / window.innerHeight), 1)
-      aspectRatioPre.curret = aspectRatioPre
+      state.camera.zoom = Math.min(1.2 * (aspectRatio), 1)
+      aspectRatioPre.curret = aspectRatio
+      state.camera.updateProjectionMatrix()
     }
   })
 }

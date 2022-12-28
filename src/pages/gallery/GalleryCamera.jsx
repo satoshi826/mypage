@@ -13,14 +13,16 @@ export default function GalleryCamera() {
   const isMobile = useIsMobile()
   const isTransition = useIsTransition()
 
-  const R = isTransition ? 82 : 60
+  const R = isTransition ?
+    isMobile ? 72 : 82
+    : 60
 
-  const R_DeltaPower =
-  isMobile ? 300
-    : window.innerWidth / 1.2
+  const R_DeltaPower = isMobile
+    ? 50
+    : 100 + window.innerWidth / 10
 
   const scrollLambda =
-  isTransition ? 2
+  isTransition ? 4
     : isMobile ? 7
       : 5
 
@@ -31,11 +33,11 @@ export default function GalleryCamera() {
 
   useFrame((state, delta) => {
 
-    const cameraPosition = state.camera.position
-    let currentAngle = calcAngleFromPosition(cameraPosition)
+    const cameraPos = state.camera.position
+    let currentAngle = calcAngleFromPosition(cameraPos)
 
     if (selectedPhotoPosition) {
-      state.camera.position.set(...calcCameraPositionSelected(selectedPhotoPosition, cameraPosition, delta))
+      state.camera.position.set(...calcCameraPositionSelected(selectedPhotoPosition, cameraPos, delta))
       state.camera.rotation.set(0, currentAngle, 0)
     }else{
       const scrollValue = scroll.scroll.current
@@ -45,20 +47,22 @@ export default function GalleryCamera() {
       currentAngle = (targetAngle - currentAngle) > 1 * Math.PI ? currentAngle + 2 * Math.PI : currentAngle
 
       const deltaAngle = damp(currentAngle, targetAngle, scrollLambda, delta)
-      const targetR = Math.min(R + scroll.delta * R_DeltaPower, 85)
+      const targetR = Math.min(R + Math.abs(deltaAngle - currentAngle) * R_DeltaPower, 85)
 
-      state.camera.position.set(...calcCameraPosition(cameraPosition, targetR, deltaAngle, delta))
+      state.camera.position.set(...calcCameraPosition(cameraPos, targetR, deltaAngle, delta))
       state.camera.rotation.set(0, deltaAngle, 0)
     }
     lightRef.current.position.set(...calcLightPosition(lightRef.current.position, state.camera.position, delta))
-    state.camera.updateProjectionMatrix()
+    state.camera.updateMatrix()
   })
 
-  return <pointLight
-    intensity={isTransition ? 0 : selectedPhotoPosition ? 15 : 35}
-    decay={1} distance={selectedPhotoPosition ? 20 : 28}
-    ref={lightRef}
-  />
+  return (
+    <pointLight
+      intensity={isTransition ? 0 : selectedPhotoPosition ? 15 : 35}
+      decay={1} distance={selectedPhotoPosition ? 20 : 28}
+      ref={lightRef}
+    />
+  )
 }
 
 
@@ -86,9 +90,9 @@ function calcLightPosition(light, camera, delta) {
 
   return(
     [
-      damp(light.x, camera.x, 1.5, delta),
+      damp(light.x, camera.x, 1.2, delta),
       camera.y,
-      damp(light.z, camera.z, 1.5, delta)
+      damp(light.z, camera.z, 1.2, delta)
     ]
   )
 }
