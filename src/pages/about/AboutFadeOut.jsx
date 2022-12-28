@@ -1,16 +1,18 @@
-import {useRef, forwardRef} from 'react'
+import {useRef, forwardRef, useEffect} from 'react'
 import * as THREE from 'three'
 import {useIsTransition, useDoneTransition} from '../../hooks/usePageTransition'
 import {useResetLight} from '../../mesh/MainLight'
 import {useSetScrollStage} from './Text'
 import {useFrame, useThree} from '@react-three/fiber'
 import {dampMatrix} from '../../util'
+import {useDisactivateMenu} from '../../frame/bottombar/Bottombar'
 
 const damp = THREE.MathUtils.damp
 
 export default forwardRef(function AboutFadeOut(_, {ref1, ref2}) {
 
   const isTransition = useIsTransition()
+  const disactivateMenu = useDisactivateMenu()
 
   const Transition = () => {
 
@@ -29,6 +31,10 @@ export default forwardRef(function AboutFadeOut(_, {ref1, ref2}) {
 
     const isBarEnabled = useRef(false)
     const isGateClosed = useRef(false)
+
+    useEffect(() => {
+      disactivateMenu()
+    }, [])
 
     useFrame((_, delta) => {
 

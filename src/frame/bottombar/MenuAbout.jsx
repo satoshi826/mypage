@@ -1,12 +1,8 @@
 import {useIsMobile} from '../../hooks/useIsMobile'
-import {useCurrentPage} from '../../hooks/usePageTransition'
 import {useTheme} from '../../theme/useTheme'
 import {useScrollStage} from '../../pages/about/Text'
 
 export default function MenuAbout() {
-
-  const page = useCurrentPage()
-  const isAbout = page === '/about'
 
   const {pallete} = useTheme()
   const isMobile = useIsMobile()
@@ -14,22 +10,18 @@ export default function MenuAbout() {
   const titleCss = getTitleCss(pallete, isMobile)
 
   return (
-    isAbout
-      ?
-      <div css={barCss} >
-        <div css={titleCss} onClick={scroll(100)}>
+    <div css={barCss} >
+      <div css={titleCss} onClick={scroll(100)}>
           Dev
-        </div>
-        <div css={titleCss} onClick={scroll(420)}>
-          Photo
-        </div>
-        <div css={titleCss} onClick={scroll(740)}>
-          Other
-        </div>
-        <Marker />
       </div>
-      :
-      null
+      <div css={titleCss} onClick={scroll(420)}>
+          Photo
+      </div>
+      <div css={titleCss} onClick={scroll(740)}>
+          Other
+      </div>
+      <Marker />
+    </div>
   )
 }
 

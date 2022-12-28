@@ -4,6 +4,7 @@ import {atom, useSetRecoilState, useRecoilValue} from 'recoil'
 import {useDoneTransition} from '../../hooks/usePageTransition'
 import {useResetLight, useSetLight} from '../../mesh/MainLight'
 import {dampMatrix} from '../../util'
+import {useDisactivateMenu} from '../../frame/bottombar/Bottombar'
 
 //----------------------------------------------------------------
 
@@ -24,6 +25,8 @@ export default function TopFadeOut({camera, light}) {
 
   const doneTransition = useDoneTransition()
 
+  const disactivateMenu = useDisactivateMenu()
+
   const setIsTransforming = useSetIsTransforming()
   const isTransforming = useisTransforming()
 
@@ -38,6 +41,7 @@ export default function TopFadeOut({camera, light}) {
       position : [0, -25, 0],
       power    : 0
     })
+    disactivateMenu()
   }, [])
 
   useFrame((_, delta) => {

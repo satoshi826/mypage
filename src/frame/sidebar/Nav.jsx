@@ -3,18 +3,19 @@ import {useTheme} from '../../theme/useTheme'
 import {useIsMobile} from '../../hooks/useIsMobile'
 import {useIsTransition} from '../../hooks/usePageTransition'
 import {useIsOpenSidebar} from '../useSidebar'
+import {useIsActiveMenu} from '../bottombar/Bottombar'
 
 export default function Nav({url, name}) {
   const [location] = useLocation()
   const isActive = location === url
   const isMobile = useIsMobile()
-  const isTransition = useIsTransition()
+  const isActiveMenu = useIsActiveMenu()
   const {pallete} = useTheme()
   const setIsOpen = useIsOpenSidebar()[1]
   const {baseCss, activeCss, passiveCss} = getCss(pallete)
 
   return (
-    <nav css={[{position: 'relative'}, isTransition && {pointerEvents: 'none'}]} onClick={() => isMobile && setIsOpen(false)}>
+    <nav css={[{position: 'relative'}, !isActiveMenu && {pointerEvents: 'none'}]} onClick={() => isMobile && setIsOpen(false)}>
       <Link href={url} >
         <div
           css={[baseCss, isActive ? activeCss : passiveCss]}>

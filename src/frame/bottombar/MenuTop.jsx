@@ -1,7 +1,6 @@
 import {useState, useRef, useCallback, useEffect} from 'react'
 import {useIsMobile} from '../../hooks/useIsMobile'
 import useHandleClickOutside from '../../hooks/useHandleClickOutside'
-import {useCurrentPage} from '../../hooks/usePageTransition'
 import {useSetLightSpeed} from '../../pages/top/LightController'
 import {useTextState} from '../../pages/top/Text3D'
 import {useSetLight} from '../../mesh/MainLight'
@@ -10,19 +9,15 @@ import {rgbaFromHEX} from '../../util'
 
 export default function MenuTop() {
 
-  const page = useCurrentPage()
-  const isTop = page === '/top'
-
   const {pallete, shape} = useTheme()
   const isMobile = useIsMobile()
 
   const baseButtonprops = {
     pallete,
     isMobile,
-    isTop
   }
 
-  const barCss = getBarCss(shape, isTop)
+  const barCss = getBarCss(shape)
 
   return (
     <div css={barCss}>
@@ -33,11 +28,10 @@ export default function MenuTop() {
   )
 }
 
-const getBarCss = ({bottombar}, isTop) => ({
+const getBarCss = ({bottombar}) => ({
   position       : 'absolute',
   transition     : 'all .4s',
   transitionDelay: 'transform .5s',
-  transform      : !isTop && `translateY(${bottombar.height})`,
   height         : bottombar.height,
   display        : 'flex',
   alignContent   : 'start',
@@ -62,9 +56,6 @@ function LightButton({pallete, isMobile, isTop}) {
   }
   const containerRef = useHandleClickOutside(onClickOutside)
 
-  // useEffect(() => {
-  //   ref.current.setCurrentTime(lightLevel / 10)
-  // }, [])
 
   const onChangeLight = (e) => {
     const value = e.target.value
@@ -159,13 +150,17 @@ function LightIcon({lightLevel}) {
 
 //----------------------------------------------------------------
 
-function SpeedButton({pallete, isMobile, isTop}) {
+function SpeedButton({pallete, isMobile}) {
 
   const [timerID, setTimerID] = useState('')
   const [speedLevel, setSpeedLevel] = useState(5)
   const [isActive, setIsActive] = useState(false)
 
   const setLightSpeed = useSetLightSpeed()
+
+  useEffect(() => {
+    setLightSpeed(speedLevel)
+  }, [])
 
   const onClickButton = () => setIsActive(pre => !pre)
   const onClickOutside = () => {
@@ -183,7 +178,7 @@ function SpeedButton({pallete, isMobile, isTop}) {
     , 100))
   }
 
-  const sliderContainerCss = getSliderContainerCss(pallete, isActive, isTop)
+  const sliderContainerCss = getSliderContainerCss(pallete, isActive)
   const lineCss = getLineCss(pallete, isMobile, isActive)
 
   const sliderProps = {
@@ -259,7 +254,7 @@ function SpeedIcon({speedLevel}) {
 
 //----------------------------------------------------------------
 
-function TextButton({pallete, isMobile, isTop}) {
+function TextButton({pallete, isMobile}) {
 
   const [timerID, setTimerID] = useState('')
   const [text, setText] = useTextState()
@@ -284,7 +279,7 @@ function TextButton({pallete, isMobile, isTop}) {
     , 500))
   }
 
-  const inputContainerCss = getInputContainerCss(pallete, isActive, isTop)
+  const inputContainerCss = getInputContainerCss(pallete, isActive)
   const lineCss = getLineCss(pallete, isMobile, isActive)
 
   const inputProps = {
@@ -350,7 +345,7 @@ const textIconContainerCss = {
   width         : '260px',
 }
 
-const getInputContainerCss = ({primary, background}, isActive, isTop) => ({
+const getInputContainerCss = ({primary, background}, isActive) => ({
   transition    : 'all .4s',
   position      : 'absolute',
   display       : 'flex',
@@ -364,7 +359,7 @@ const getInputContainerCss = ({primary, background}, isActive, isTop) => ({
   background    : rgbaFromHEX(background[1], 0.4),
   backdropFilter: 'blur(5px)',
   border        : '1px solid ' + isActive ? rgbaFromHEX(background[2], 0.2) : 'rgba(0,0,0,0)',
-  '&::after'    : isTop && {
+  '&::after'    : {
     transition  : 'all .4s',
     content     : '""',
     position    : 'absolute',
@@ -435,7 +430,7 @@ const iconContainerCss = {
   width       : '60px',
 }
 
-const getSliderContainerCss = ({primary, background}, isActive, isTop) => ({
+const getSliderContainerCss = ({primary, background}, isActive) => ({
   transition    : 'all .4s',
   position      : 'absolute',
   display       : 'flex',
@@ -447,7 +442,7 @@ const getSliderContainerCss = ({primary, background}, isActive, isTop) => ({
   background    : rgbaFromHEX(background[1], 0.4),
   backdropFilter: 'blur(5px)',
   border        : '1px solid ' + rgbaFromHEX(background[2], 0.2),
-  '&::after'    : isTop && {
+  '&::after'    : {
     content     : '""',
     position    : 'absolute',
     top         : '-2px',

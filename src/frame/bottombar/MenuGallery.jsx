@@ -2,17 +2,14 @@ import {useTheme} from '../../theme/useTheme'
 import {useIsMobile} from '../../hooks/useIsMobile'
 import {useSetSelectedPhoto, useSelectedPhoto,
   useSetIsAutoScroll, useIsAutoScroll} from '../../pages/gallery/Gallery'
-import {useCurrentLocation, useCurrentPage} from '../../hooks/usePageTransition'
+import {useCurrentPage} from '../../hooks/usePageTransition'
 
 export default function MenuGallery() {
 
   const isMobile = useIsMobile()
   const setSelectedPhoto = useSetSelectedPhoto()
   const isView = !!useSelectedPhoto()
-  const location = useCurrentLocation()
-  const currentPage = useCurrentPage()
 
-  const isGallery = location === '/gallery' && currentPage === '/gallery'
   const {pallete, shape} = useTheme()
 
   const isPlay = useIsAutoScroll()
@@ -24,19 +21,18 @@ export default function MenuGallery() {
   }
 
   return (
-    <span onClick={handleClick} css={getLineCss(pallete, shape, isMobile, isGallery)}>
+    <div onClick={handleClick} css={getLineCss(pallete, shape, isMobile)}>
       <BackButtonIcon isPlay={isPlay}/>
-    </span>
+    </div>
   )
 }
 
-const getLineCss = ({primary, text}, {bottombar}, isMobile, isGallery) => ({
+const getLineCss = ({primary, text}, {bottombar}, isMobile) => ({
   position       : 'absolute',
   cursor         : 'pointer',
   color          : text[0],
   transition     : 'all .4s',
   transitionDelay: 'transform .5s',
-  transform      : !isGallery && `translateY(${bottombar.height})`,
   height         : bottombar.height,
   stroke         : text[1],
   strokeWidth    : '2px',

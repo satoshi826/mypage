@@ -5,6 +5,7 @@ import {SpotLight} from '@react-three/drei'
 import {useDoneTransition, useIsTransition} from '../../hooks/usePageTransition'
 import {useSetSelectedPhoto, useSetIsAutoScroll} from './Gallery'
 import {useSetLight} from '../../mesh/MainLight'
+import {useDisactivateMenu} from '../../frame/bottombar/Bottombar'
 
 
 const damp = THREE.MathUtils.damp
@@ -13,6 +14,7 @@ const startDownTime = 0.5
 export default forwardRef(function GalleryFadeOut(_, ref) {
 
   const isTransition = useIsTransition()
+  const disactivateMenu = useDisactivateMenu()
 
   const Transition = () => {
 
@@ -27,6 +29,7 @@ export default forwardRef(function GalleryFadeOut(_, ref) {
       setSelectedPhoto(null)
       setIsAutoScroll(false)
       setLight(pre => ({...pre, size: 0.5, power: 0}))
+      disactivateMenu()
     }, [])
 
 

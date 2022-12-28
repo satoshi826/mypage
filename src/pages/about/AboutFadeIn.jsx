@@ -3,10 +3,13 @@ import {useFrame, useThree} from '@react-three/fiber'
 import {useResetLight, useSetLight} from '../../mesh/MainLight'
 import {useIsMobile} from '../../hooks/useIsMobile'
 import {dampMatrix} from '../../util'
+import {useSetActiveMenu, useActivateMenu} from '../../frame/bottombar/Bottombar'
 
 export default forwardRef(function AboutFadeIn(_, {ref1, ref2}) {
 
   const [isTransition, endTransition] = useReducer(() => false, true)
+  const setActiveMenu = useSetActiveMenu()
+  const activateMenu = useActivateMenu()
 
   const Transition = () => {
 
@@ -37,6 +40,7 @@ export default forwardRef(function AboutFadeIn(_, {ref1, ref2}) {
 
     useEffect(() => {
       resetLight(aboutLight)
+      setActiveMenu('about')
     }, [])
 
     useFrame((state, delta) => {
@@ -53,6 +57,7 @@ export default forwardRef(function AboutFadeIn(_, {ref1, ref2}) {
         if(mainlight.position.y < -36 && !isDoneMove.current) {
           isDoneMove.current = true
           setLight(pre => ({...pre, size: 0}))
+          activateMenu()
         }
 
         const gateBar = state.scene.children.find(({name}) => name === 'gateBar')

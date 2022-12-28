@@ -2,11 +2,16 @@ import {useEffect} from 'react'
 import {useFrame} from '@react-three/fiber'
 import {useResetLight, useSetLight} from '../../mesh/MainLight'
 import {dampMatrix} from '../../util'
+import {useSetActiveMenu, useActivateMenu} from '../../frame/bottombar/Bottombar'
 
 export default function TopFadeIn({transitionFadeInLevel, setTransitionFadeInLevel, camera, light}) {
 
   const resetLight = useResetLight()
   const setLight = useSetLight()
+  const setActiveMenu = useSetActiveMenu()
+  const activateMenu = useActivateMenu()
+
+  setActiveMenu('top')
 
   useEffect(() => {
     resetLight({
@@ -63,6 +68,7 @@ export default function TopFadeIn({transitionFadeInLevel, setTransitionFadeInLev
     }
 
     if (transitionFadeInLevel === 1 && cameraPos.y > 0) {
+      activateMenu()
       setTransitionFadeInLevel(0)
     }
 
