@@ -20,6 +20,16 @@ export const useSelectedPhoto = () => useRecoilValue(selectedPhotoState)
 
 //----------------------------------------------------------------
 
+const isFullScreenState = atom({
+  key    : 'isFullScreenState',
+  default: null,
+})
+
+export const useSetisFullScreen = () => useSetRecoilState(isFullScreenState)
+export const useisFullScreen = () => useRecoilValue(isFullScreenState)
+
+//----------------------------------------------------------------
+
 const hoverIdState = atom({
   key    : 'hoverIdState',
   default: null,

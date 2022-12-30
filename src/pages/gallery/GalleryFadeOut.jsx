@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import {useFrame} from '@react-three/fiber'
 import {SpotLight} from '@react-three/drei'
 import {useDoneTransition, useIsTransition} from '../../hooks/usePageTransition'
-import {useSetSelectedPhoto, useSetIsAutoScroll} from './Gallery'
+import {useSetSelectedPhoto, useSetIsAutoScroll, useSetisFullScreen} from './Gallery'
 import {useSetLight} from '../../mesh/MainLight'
 import {useDisactivateMenu} from '../../frame/bottombar/Bottombar'
 
@@ -22,11 +22,13 @@ export default forwardRef(function GalleryFadeOut(_, ref) {
 
     const doneTransition = useDoneTransition()
     const setSelectedPhoto = useSetSelectedPhoto()
+    const setisFullScreen = useSetisFullScreen()
     const setIsAutoScroll = useSetIsAutoScroll()
     const setLight = useSetLight()
 
     useEffect(() => {
       setSelectedPhoto(null)
+      setisFullScreen(false)
       setIsAutoScroll(false)
       setLight(pre => ({...pre, size: 0.5, power: 0}))
       disactivateMenu()

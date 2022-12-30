@@ -11,9 +11,8 @@ export default function TopFadeIn({transitionFadeInLevel, setTransitionFadeInLev
   const setActiveMenu = useSetActiveMenu()
   const activateMenu = useActivateMenu()
 
-  setActiveMenu('top')
-
   useEffect(() => {
+    setActiveMenu('top')
     resetLight({
       intensity: 4,
       lambda   : 2,
@@ -89,7 +88,6 @@ export default function TopFadeIn({transitionFadeInLevel, setTransitionFadeInLev
     }[transitionFadeInLevel]
 
     cameraPos.set(...dampMatrix(cameraPos, target, delta, lambda))
-
 
     camera.updateMatrix()
   })

@@ -1,5 +1,7 @@
 import {useEffect} from 'react'
-import {useCurrentPage, useIsTransition, useDoneTransition} from './hooks/usePageTransition'
+import {useCurrentPage, useSetCurrentPage} from './hooks/usePageTransition'
+import {useIsOpening} from './Opening'
+import {useLocation} from 'wouter'
 
 import Top from './pages/top/Top'
 import Gallery from './pages/gallery/Gallery'
@@ -13,23 +15,20 @@ const pageMap = {
 
 
 export default function TransitionRouter() {
-
+  const isOpening = useIsOpening()
   const currentPage = useCurrentPage()
-  const pageElement = pageMap?.[currentPage] ?? _404
-
-  return pageElement
+  const pageElement = pageMap?.[currentPage] ?? <Root/>
+  return !isOpening && pageElement
 }
 
-function _404() {
+function Root() {
 
-  const isTransition = useIsTransition()
+  const setLocation = useLocation()[1]
+  const setCurrentPage = useSetCurrentPage()
 
-  const Done = () => {
-    const doneTransition = useDoneTransition()
-    useEffect(() => {
-      doneTransition()
-    }, [])
-  }
+  useEffect(() => {
+    setLocation('/top')
+    setCurrentPage('/top')
+  }, [])
 
-  return isTransition && <Done/>
 }

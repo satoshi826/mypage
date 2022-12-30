@@ -11,6 +11,10 @@ export function useCurrentPage() {
   return useRecoilValue(currentPageState)
 }
 
+export function useSetCurrentPage() {
+  return useSetRecoilState(currentPageState)
+}
+
 export function useCurrentLocation() {
   const [location] = useLocation()
   return location
@@ -24,6 +28,6 @@ export function useIsTransition() {
 
 export function useDoneTransition() {
   const [location] = useLocation()
-  const setCurrentPage = useSetRecoilState(currentPageState)
+  const setCurrentPage = useSetCurrentPage()
   return () => setCurrentPage(location)
 }

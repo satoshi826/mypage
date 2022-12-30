@@ -17,7 +17,7 @@ export default forwardRef(function AboutFadeIn(_, {ref1, ref2}) {
       intensity: 0.4,
       distance : 180,
       power    : 0,
-      lambda   : 2,
+      lambda   : 1.8,
       position : [0, -36.8, -25],
       flash    : {intensity: 3, distance: 90}
     }

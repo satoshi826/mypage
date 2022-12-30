@@ -87,7 +87,7 @@ export default forwardRef(function Text(_, ref) {
         <ScrollText start={160} fontSize={5}>
         JavaScript / CSS / HTML
         React / MUI / Recoil / swr
-        Three.js / r3f / node.js　
+        Three.js  / r3f /  node.js
         AWS / Lambda / Dynamo
         Serverless Framework
         OpenAPI / Swagger
@@ -115,7 +115,7 @@ export default forwardRef(function Text(_, ref) {
         1X
         </ScrollText>
         <ScrollText start={500} fontSize={4}>
-        65 Published
+        67 Published
         </ScrollText>
         <ScrollText start={510} fontSize={6}>
         Interviewed
@@ -143,10 +143,9 @@ export default forwardRef(function Text(_, ref) {
         this Page
         </ScrollText>
         <ScrollText start={790} fontSize={4}>
-        r3f / three.js の学習が
-        主な実装動機です
-        操作しやすい/触って楽しい
-        の両立を心がけて作りました
+        実装動機は r3f / three.js の学習です
+        スナップで習得した光や構図による表現を
+        反映したら何が作れるか試してみました
         </ScrollText>
         <ScrollText start={830} fontSize={8} light={{intensity: 2, distance: 65}}>
         Link

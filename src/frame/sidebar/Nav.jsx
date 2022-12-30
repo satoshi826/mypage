@@ -1,7 +1,6 @@
 import {Link, useLocation} from 'wouter'
 import {useTheme} from '../../theme/useTheme'
 import {useIsMobile} from '../../hooks/useIsMobile'
-import {useIsTransition} from '../../hooks/usePageTransition'
 import {useIsOpenSidebar} from '../useSidebar'
 import {useIsActiveMenu} from '../bottombar/Bottombar'
 

@@ -13,14 +13,24 @@ const defaultLight = {
   distance : 80,
   size     : 0.5,
   power    : 2,
-  lambda   : 2,
+  lambda   : 3,
+  position : [0, 0, 0],
+  flash    : null
+}
+
+const openingLight = {
+  intensity: 40,
+  distance : 250,
+  size     : 1,
+  power    : 0,
+  lambda   : 1,
   position : [0, 0, 0],
   flash    : null
 }
 
 const lightState = atom({
   key    : 'lightState',
-  default: defaultLight
+  default: openingLight
 })
 
 export const useLight = () => useRecoilValue(lightState)
@@ -54,8 +64,8 @@ export default function MainLight() {//スクロール速度に合わせて明�
     if (!preCameraPos.current) preCameraPos.current = cameraPos
     const speed = cameraPos.clone().sub(preCameraPos.current).length()
 
-    lightRef.current.intensity = Math.min(damp(lightRef.current.intensity, (intensity + power * speed), lambda / 2, delta), 10)
-    lightRef.current.distance = Math.min(damp(lightRef.current.distance, (distance + power * speed * 40), lambda, delta), 240)
+    lightRef.current.intensity = damp(lightRef.current.intensity, (intensity + power * speed), lambda / 2, delta)
+    lightRef.current.distance = damp(lightRef.current.distance, (distance + power * speed * 40), lambda, delta)
 
     if(position) {
       let pos = groupRef.current.position
@@ -74,9 +84,9 @@ export default function MainLight() {//スクロール速度に合わせて明�
 
   return(
     <group ref={groupRef} name='mainLight'>
-      <pointLight decay={2} ref={lightRef} />
-      <mesh rotation={[0, 0, 0]} >
-        <sphereBufferGeometry args={[18, 48, 24]} />
+      <pointLight decay={2} ref={lightRef} intensity={openingLight.intensity} distance={openingLight.distance}/>
+      <mesh rotation={[0, 0, 0]} scale={[openingLight.size, openingLight.size, openingLight.size]}>
+        <sphereBufferGeometry args={[18, 48, 24]}/>
         <meshBasicMaterial wireframe color={'#fff'}/>
       </mesh>
     </group>

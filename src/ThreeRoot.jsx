@@ -13,12 +13,14 @@ import MainRoom from './mesh/Room'
 export default function ThreeRoot() {
 
   const RecoilBridge = useRecoilBridgeAcrossReactRoots_UNSTABLE()
+  const isExistSelectedPhoto = useSelectedPhoto()
 
   return(
     <Canvas
       dpr={[1, 2]}
-      camera={{fov: 90, near: 0.1, far: 190}}
+      camera={{fov: 90, near: 0.1, far: 190, position: [0, 0, 70]}}
       gl={{antialias: false}}
+      flat={isExistSelectedPhoto}
       performance={{
         current : 1,
         min     : 0.2,

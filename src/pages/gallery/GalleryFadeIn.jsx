@@ -18,6 +18,7 @@ export default forwardRef(function GalleryFadeIn({galleryLight}, ref) {
 
     useEffect(() => {
       setActiveMenu('gallery')
+      if(isTransition) setActiveMenu('gallery')
       if(!isTransition) {
         setLight({...galleryLight, flash: {intensity: 8, distance: 160}})
         ref.current.scale.set(0, 0, 0)

@@ -18,9 +18,7 @@ export function useSetLightSpeed() {
 export default function LightController({light}) {
 
   const pos = light?.position
-
   const time = useRef(0)
-
   const lightSpeed = useLightSpeed()
 
   useFrame((_, delta) => {

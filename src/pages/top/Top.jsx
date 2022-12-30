@@ -23,7 +23,7 @@ export default function Top() {
   return (
     <>
       {(transitionFadeInLevel < 4) && <Text3D/>}
-      {(transitionFadeInLevel && !isTransitionFadeOut &&
+      {((!!transitionFadeInLevel && !isTransitionFadeOut) &&
         <TopFadeIn
           transitionFadeInLevel={transitionFadeInLevel}
           setTransitionFadeInLevel={setTransitionFadeInLevel}

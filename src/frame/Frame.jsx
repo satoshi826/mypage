@@ -4,8 +4,9 @@ import Bottombar from './bottombar/Bottombar'
 import {useTheme} from '../theme/useTheme'
 import {useIsOpenSidebar} from './useSidebar'
 import {useIsMobile} from '../hooks/useIsMobile'
-import {useCurrentLocation} from '../hooks/usePageTransition'
+import {useActiveMenu} from './bottombar/Bottombar'
 import {useSelectedPhoto} from '../pages/gallery/Gallery'
+import FullScreenPhoto from '../pages/gallery/FullScreenPhoto'
 
 
 export default function Frame({children}) {
@@ -19,6 +20,7 @@ export default function Frame({children}) {
 
   return (
     <div css={appCss} >
+      <FullScreenPhoto/>
       <ScrollStyle/>
       <Topbar />
       <div css={mainCss}>
@@ -38,7 +40,7 @@ export default function Frame({children}) {
 const getCssMobile = ({pallete, shape}) => ({
 
   appCss: {
-    overflow     : 'hidden',
+    // overflow     : 'hidden',
     background   : pallete.background[0],
     height       : '100%',
     display      : 'flex',
@@ -102,8 +104,8 @@ function ScrollStyle() {
 
   const {pallete} = useTheme()
   const isSelected = !!useSelectedPhoto()
-  const location = useCurrentLocation()
-  const isEnable = (location === '/gallery') && !isSelected
+  const active = useActiveMenu()
+  const isEnable = (active === 'gallery') && !isSelected
 
   return (
     <style dangerouslySetInnerHTML={{

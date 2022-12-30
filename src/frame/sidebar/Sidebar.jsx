@@ -32,6 +32,9 @@ export default function Sidebar() {
 const getCss = ({isSwiping, pallete, shape}) => ({
   transition    : isSwiping || 'all .3s',
   padding       : '20px 12px',
+  // paddingBottom : '24px',
+  display       : 'flex',
+  flexDirection : 'column',
   background    : rgbaFromHEX(pallete.background[2], 0.5),
   backdropFilter: 'blur(5px) saturate(200%)',
   borderRight   : '1px solid ' + pallete.background[2],

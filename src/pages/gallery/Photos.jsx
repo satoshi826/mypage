@@ -3,7 +3,8 @@ import * as THREE from 'three'
 import {Image} from '@react-three/drei'
 import {useFrame} from '@react-three/fiber'
 import {useIsMobile} from '../../hooks/useIsMobile'
-import {useSetSelectedPhoto, useSelectedPhoto, useSetHoverId, useHoverId} from './Gallery'
+import {useSetSelectedPhoto, useSelectedPhoto, 
+  useSetHoverId, useHoverId, useSetisFullScreen} from './Gallery'
 import {useSetLight} from '../../mesh/MainLight'
 
 const PHOTONUM = 42
@@ -44,6 +45,9 @@ export default forwardRef(function Photos ({galleryLight}, ref) {
 
 
 function SelectedPhotoHiRes({selectedPhoto}) {
+
+  const setisFullScreen = useSetisFullScreen()
+
   return(
     <Suspense fallback={null}>
       <Image
@@ -51,6 +55,7 @@ function SelectedPhotoHiRes({selectedPhoto}) {
         rotation={selectedPhoto.rotation}
         scale={[SIZE * 12, SIZE * 8, 1]}
         url={`./photos/Hi_${selectedPhoto.id}.webp`}
+        onClick={() => setisFullScreen(true)}
       />
     </Suspense>
   )

@@ -14,7 +14,7 @@ const isActiveMenuState = atom({
   default: false,
 })
 
-const useActiveMenu = () => useRecoilValue(activeMenuState)
+export const useActiveMenu = () => useRecoilValue(activeMenuState)
 export const useIsActiveMenu = () => useRecoilValue(isActiveMenuState)
 
 export const useSetActiveMenu = () => useSetRecoilState(activeMenuState)
@@ -68,6 +68,7 @@ const getBarCss = ({background}, {topbar}) => ({
   borderTop      : '1px solid ' + background[2],
   alignItems     : 'center',
   justifyContent : 'center',
+  zIndex         : 2,
 })
 
 const getMenuCss = (isActive, {bottombar}) => ({

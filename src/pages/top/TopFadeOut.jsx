@@ -10,7 +10,7 @@ import {useDisactivateMenu} from '../../frame/bottombar/Bottombar'
 
 const isTransformingState = atom({
   key    : 'isTransformingState',
-  default: false, //{id, position, rotation}
+  default: false,
 })
 
 export const useSetIsTransforming = () => useSetRecoilState(isTransformingState)
@@ -52,7 +52,7 @@ export default function TopFadeOut({camera, light}) {
 
     if (R < 6.5 && !isTransforming) {
       setIsTransforming(true)
-      setLight((pre) => ({...pre, distance: 30, intensity: 8, ...{flash: {distance: 160, intensity: 8}}})) 
+      setLight((pre) => ({...pre, size: 0.8, distance: 30, intensity: 8, ...{flash: {distance: 160, intensity: 8}}})) 
     }
 
     if (R < 0.01 && isTransforming) {
@@ -60,23 +60,11 @@ export default function TopFadeOut({camera, light}) {
       doneTransition()
     }
 
-
-
-    // console.log(R)
-
     cameraPos.set(...dampMatrix(cameraPos, [0, 0, 70], delta, 3.5))
     cameraRot.set(...dampMatrix(cameraRot, [0, 0, 0], delta, 3.5))
     camera.updateMatrix()
 
-    // if (lightSize < 0.101 && !isDoneTransform.current) {
-    //   resetLight()
-    //   isDoneTransform.current = true
-    // }
-
-
   })
-
-
 
 }
 
