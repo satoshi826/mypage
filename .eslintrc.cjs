@@ -18,7 +18,7 @@ module.exports = {
     indent                     : [2, 2],
     quotes                     : [2, 'single'],
     semi                       : [2, 'never'],
-    eqeqeq                     : 1,
+    'eqeqeq'                   : 1,
     'react/react-in-jsx-scope' : 0,
     'react/prop-types'         : 0,
     'dot-notation'             : 1,
